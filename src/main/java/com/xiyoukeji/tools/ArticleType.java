@@ -1,0 +1,13 @@
+package com.xiyoukeji.tools;
+
+/**
+ * 文章类型
+ *
+ * Created by Matilda on 2016/12/13.
+ */
+
+public enum ArticleType {
+    DEVELOPMENT, PROJECT_GALLERY, PROJECT_DYNAMICS, RESEARCH_REPORT, WEEK_OBSERVATION,
+    ANNOUNCEMENT, COMPANY_NEWS, INDUSTRY_NEWS, SERVICE_EXPERIENCE, COMPLIANCE_RISK_CONTROL
+
+    }
