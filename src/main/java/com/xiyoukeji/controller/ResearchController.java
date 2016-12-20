@@ -24,7 +24,7 @@ public class ResearchController {
     @Resource
     ArticleService articleService;
 
-    @RequestMapping("/research/getReportList")
+    @RequestMapping("/getReportList")
     @ResponseBody
     public Map getReportList() {
         Map<String, Object> map = new HashMap<>();
@@ -32,14 +32,14 @@ public class ResearchController {
         return map;
     }
 
-    @RequestMapping(value = "/research/getReport", method = RequestMethod.POST)
+    @RequestMapping(value = "/getReport", method = RequestMethod.POST)
     @ResponseBody
     public Article getReportById(Integer id) {
         if(id == null) return null;
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping("/research/getObservationList")
+    @RequestMapping("/getObservationList")
     @ResponseBody
     public Map getObservationList() {
         Map<String, Object> map = new HashMap<>();
@@ -47,7 +47,7 @@ public class ResearchController {
         return map;
     }
 
-    @RequestMapping(value = "/research/getObservation", method = RequestMethod.POST)
+    @RequestMapping(value = "/getObservation", method = RequestMethod.POST)
     @ResponseBody
     public Article getObservationById(Integer id) {
         if(id == null) return null;

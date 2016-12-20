@@ -2,10 +2,7 @@ package com.xiyoukeji.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * 招聘信息
@@ -14,6 +11,7 @@ import javax.persistence.Id;
  */
 
 @Entity
+@Table(name = "recruitment")
 public class Recruitment {
 
     @Id
@@ -26,6 +24,7 @@ public class Recruitment {
     @Column(columnDefinition = "text")
     private String requirement;
     private String place;
+    private String email;
 
     public Integer getId() {
         return id;
@@ -65,5 +64,13 @@ public class Recruitment {
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

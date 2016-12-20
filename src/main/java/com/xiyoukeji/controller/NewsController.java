@@ -23,7 +23,7 @@ public class NewsController {
     @Resource
     ArticleService articleService;
 
-    @RequestMapping("/newscenter/getAnnouncementList")
+    @RequestMapping("/getAnnouncementList")
     @ResponseBody
     public Map getAnnouncementList() {
         Map<String, Object> map = new HashMap<>();
@@ -31,14 +31,14 @@ public class NewsController {
         return map;
     }
 
-    @RequestMapping(value = "/newscenter/getAnnouncement", method = RequestMethod.POST)
+    @RequestMapping(value = "/getAnnouncement", method = RequestMethod.POST)
     @ResponseBody
     public Article getAnnouncementById(Integer id) {
         if(id == null) return null;
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping("/newscenter/getCompanyNewsList")
+    @RequestMapping("/getCompanyNewsList")
     @ResponseBody
     public Map getCompanyNewsList() {
         Map<String, Object> map = new HashMap<>();
@@ -46,14 +46,14 @@ public class NewsController {
         return map;
     }
 
-    @RequestMapping(value = "/newscenter/getCompanyNews", method = RequestMethod.POST)
+    @RequestMapping(value = "/getCompanyNews", method = RequestMethod.POST)
     @ResponseBody
     public Article getCompanyNewsById(Integer id) {
         if(id == null) return null;
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping("/newscenter/getIndustryNewsList")
+    @RequestMapping("/getIndustryNewsList")
     @ResponseBody
     public Map getIndustryNewsList() {
         Map<String, Object> map = new HashMap<>();
@@ -61,7 +61,7 @@ public class NewsController {
         return map;
     }
 
-    @RequestMapping(value = "/newscenter/getIndustryNews", method = RequestMethod.POST)
+    @RequestMapping(value = "/getIndustryNews", method = RequestMethod.POST)
     @ResponseBody
     public Article getIndustryNewsById(Integer id) {
         if(id == null) return null;

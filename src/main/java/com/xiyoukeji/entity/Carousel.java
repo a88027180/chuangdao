@@ -8,22 +8,22 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 合作伙伴
+ * 轮播图
  *
- * Created by Matilda on 2016/12/13.
+ * Created by Matilda on 2016/12/19.
  */
 
 @Entity
-@Table(name = "partner")
-public class Partner {
+@Table(name = "carousel")
+public class Carousel implements Comparable<Carousel>{
 
     @Id
     @GeneratedValue(generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
-    private String name;
     private String img;
-    private String turn_url;
+    private String url;
+    private Integer order;
 
     public Integer getId() {
         return id;
@@ -31,14 +31,6 @@ public class Partner {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getImg() {
@@ -49,11 +41,24 @@ public class Partner {
         this.img = img;
     }
 
-    public String getTurn_url() {
-        return turn_url;
+    public String getUrl() {
+        return url;
     }
 
-    public void setTurn_url(String turn_url) {
-        this.turn_url = turn_url;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
+    }
+
+    @Override
+    public int compareTo(Carousel o) {
+        return this.order.compareTo(o.getOrder());
     }
 }

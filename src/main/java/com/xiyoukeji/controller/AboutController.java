@@ -36,7 +36,7 @@ public class AboutController {
     @Resource
     ArticleService articleService;
 
-    @RequestMapping("/about/getIntroduction")
+    @RequestMapping("/getIntroduction")
     @ResponseBody
     public Map getCompanyIntroduction() {
         Map<String, Object> map =  new HashMap<>();
@@ -44,7 +44,7 @@ public class AboutController {
         return map;
     }
 
-    @RequestMapping("/about/getManagerTeamList")
+    @RequestMapping("/getManagerTeamList")
     @ResponseBody
     public Map getManagementTeamList() {
         Map<String, List<Manager>> map = new HashMap<>();
@@ -52,7 +52,7 @@ public class AboutController {
         return map;
     }
 
-    @RequestMapping(value = "/about/getDevelopmentList")
+    @RequestMapping(value = "/getDevelopmentList")
     @ResponseBody
     public Map getDevelopmentList() {
         Map<String, Object> map = new HashMap<>();
@@ -60,14 +60,14 @@ public class AboutController {
         return map;
     }
 
-    @RequestMapping(value = "/about/getDevelopment", method = RequestMethod.POST)
+    @RequestMapping(value = "/getDevelopment", method = RequestMethod.POST)
     @ResponseBody
     public Article getDevelopmentById(Integer id) {
         if(id == null) return null;
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping("/about/getHoldingCompanyList")
+    @RequestMapping("/getHoldingCompanyList")
     @ResponseBody
     public Map getHoldingCompanyList() {
         Map<String, List<HoldingCompany>> map = new HashMap<>();
@@ -75,7 +75,7 @@ public class AboutController {
         return map;
     }
 
-    @RequestMapping("/about/getHonorList")
+    @RequestMapping("/getHonorList")
     @ResponseBody
     public Map getHonorList() {
         Map<String, List<Honor>> map = new HashMap<>();
@@ -83,7 +83,7 @@ public class AboutController {
         return map;
     }
 
-    @RequestMapping("/about/getPartnerList")
+    @RequestMapping("/getPartnerList")
     @ResponseBody
     public Map getPartnerList() {
         Map<String, List<Partner>> map = new HashMap<>();

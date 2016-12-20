@@ -28,6 +28,12 @@ public class ArticleService {
         return articleBaseDao.find("from Article a where a.type = :type", map);
     }
 
+    public List<Article> getArticleByTitle(String keyWord) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("keyword", "%"+keyWord+"%");
+        return articleBaseDao.find("from Article a where a.title like :keyword", map);
+    }
+
     public List<Map<String, Object>> getArticleDisplayList(int length, String type) {
         List<Map<String, Object>> list =  new ArrayList<>();
         List<Article> articleList = getArticleByType(type);
@@ -39,12 +45,12 @@ public class ArticleService {
             map.put("name", a.getTitle());
             map.put("time", a.getTime());
 
-            // 发展历程包含：id, name, time
-            if(type.equals(ArticleType.DEVELOPMENT.name()))
-            {
-                list.add(map);
-                continue;
-            }
+//            // 发展历程包含：id, name, time (可以空的summary)
+//            if(type.equals(ArticleType.DEVELOPMENT.name()))
+//            {
+//                list.add(map);
+//                continue;
+//            }
 
 
             List<String> imgList = a.getImg();
@@ -53,37 +59,30 @@ public class ArticleService {
             else
                 map.put("img", a.getImg().get(0));
 
-            // 项目展示包含： id, name, time, img
-            if(type.equals(ArticleType.PROJECT_GALLERY.name()))
-            {
-                list.add(map);
-                continue;
-            }
-
-
-            // 添加预览文字
-            String text = a.getText();
-            text = text.replaceAll("<.+?>", "");
-            if(text.length() < length)
-            {
-                map.put("text",text);
-            }
-            else
-            {
-                // 避免字符实体如&nbsp;被切割
-                String result = text.substring(0,length);
-                int newLength = length;
-                int lastAnd = result.lastIndexOf("&");
-                int lastSemicolon = result.lastIndexOf(";");
-
-                while (lastAnd>0 && lastAnd>lastSemicolon) {
-                    newLength += 7;     // 最长的字符实体如：&middot;
-                    result = text.substring(0, newLength);
-                    lastAnd = result.lastIndexOf("&");
-                    lastSemicolon = result.lastIndexOf(";");
-                }
-                map.put("text", result);
-            }
+//            // 添加预览文字(从文章头部截取)
+//            String text = a.getText();
+//            text = text.replaceAll("<.+?>", "");
+//            if(text.length() < length)
+//            {
+//                map.put("text",text);
+//            }
+//            else
+//            {
+//                // 避免字符实体如&nbsp;被切割
+//                String result = text.substring(0,length);
+//                int newLength = length;
+//                int lastAnd = result.lastIndexOf("&");
+//                int lastSemicolon = result.lastIndexOf(";");
+//
+//                while (lastAnd>0 && lastAnd>lastSemicolon) {
+//                    newLength += 7;     // 最长的字符实体如：&middot;
+//                    result = text.substring(0, newLength);
+//                    lastAnd = result.lastIndexOf("&");
+//                    lastSemicolon = result.lastIndexOf(";");
+//                }
+//                map.put("text", result);
+//            }
+            map.put("summary", a.getSummary());
 
             list.add(map);
         }

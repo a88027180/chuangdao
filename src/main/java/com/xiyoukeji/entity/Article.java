@@ -3,6 +3,7 @@ package com.xiyoukeji.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
  */
 
 @Entity
+@Table(name = "article")
 public class Article implements Comparable<Article>{
 
     @Id
@@ -20,10 +22,12 @@ public class Article implements Comparable<Article>{
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
     private Date time;
+    @NotNull
     private String title;
     @Column(columnDefinition = "text")
     private String summary;
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String text;
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "article_img")

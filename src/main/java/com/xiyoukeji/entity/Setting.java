@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 
 @Entity
+@Table(name = "setting")
 public class Setting {
 
     @Id

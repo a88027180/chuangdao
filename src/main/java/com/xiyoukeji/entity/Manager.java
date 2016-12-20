@@ -12,6 +12,7 @@ import java.util.List;
  */
 
 @Entity
+@Table(name = "manager")
 public class Manager {
 
     @Id

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,34 +25,52 @@ public class ProductController {
     @Resource
     ArticleService articleService;
 
-    @RequestMapping("/productservice/getGalleryList")
+    @RequestMapping("/getGalleryList")
     @ResponseBody
     public Map getGalleryList() {
         Map<String, Object> map = new HashMap<>();
-        map.put("list",articleService.getArticleDisplayList(0, ArticleType.PROJECT_GALLERY.name()));
+        map.put("list", articleService.getArticleDisplayList(0, ArticleType.PROJECT_GALLERY.name()));
         return map;
     }
 
-    @RequestMapping(value = "/productservice/getGallery", method = RequestMethod.POST)
+    @RequestMapping(value = "/getGallery", method = RequestMethod.POST)
     @ResponseBody
     public Article getGalleryDetailById(Integer id) {
         if(id == null) return null;
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping("/productservice/getDynamicList")
+    @RequestMapping("/getDynamicList")
     @ResponseBody
-    public Map getNewsList() {
+    public Map getDynamicList() {
         Map<String, Object> map = new HashMap<>();
         map.put("list", articleService.getArticleDisplayList(80, ArticleType.PROJECT_DYNAMICS.name()));
         return map;
     }
 
-    @RequestMapping(value = "/productservice/getDynamic", method = RequestMethod.POST)
+    @RequestMapping(value = "/getDynamic", method = RequestMethod.POST)
     @ResponseBody
-    public Article getNewsById(Integer id) {
+    public Article getDynamicById(Integer id) {
         if(id == null) return null;
         return articleService.getArticleById(id);
+    }
+
+    @RequestMapping("/getServiceExperience")
+    @ResponseBody
+    public Article getServiceExperience () {
+        List<Article> list = articleService.getArticleByType(ArticleType.SERVICE_EXPERIENCE.name());
+        if(list.size() == 0)
+            return null;
+        return list.get(0);
+    }
+
+    @RequestMapping("/getRiskControl")
+    @ResponseBody
+    public Article getRiskControl () {
+        List<Article> list = articleService.getArticleByType(ArticleType.COMPLIANCE_RISK_CONTROL.name());
+        if(list.size() == 0)
+            return null;
+        return list.get(0);
     }
 
 
