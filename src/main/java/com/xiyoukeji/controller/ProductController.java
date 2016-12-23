@@ -1,6 +1,6 @@
 package com.xiyoukeji.controller;
 
-import com.xiyoukeji.Service.ArticleService;
+import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.tools.ArticleType;
 import org.springframework.stereotype.Controller;

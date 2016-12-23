@@ -21,6 +21,7 @@ public class Manager {
     private Integer id;
     private String name;
     private String spell;
+	private String img;
     private String appellation; //称呼
     private String main_title;
     @ElementCollection(fetch = FetchType.EAGER)
@@ -51,6 +52,14 @@ public class Manager {
 
     public void setSpell(String spell) {
         this.spell = spell;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getAppellation() {

@@ -50,12 +50,14 @@
         <property name="annotatedClasses">
             <list>
                 <value>com.xiyoukeji.entity.Article</value>
+                <value>com.xiyoukeji.entity.Carousel</value>
                 <value>com.xiyoukeji.entity.HoldingCompany</value>
                 <value>com.xiyoukeji.entity.Honor</value>
                 <value>com.xiyoukeji.entity.Manager</value>
                 <value>com.xiyoukeji.entity.Partner</value>
                 <value>com.xiyoukeji.entity.Recruitment</value>
                 <value>com.xiyoukeji.entity.Setting</value>
+                <value>com.xiyoukeji.entity.Video</value>
             </list>
         </property>
     </bean>

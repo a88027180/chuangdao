@@ -2,10 +2,7 @@ package com.xiyoukeji.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 轮播图
@@ -23,7 +20,8 @@ public class Carousel implements Comparable<Carousel>{
     private Integer id;
     private String img;
     private String url;
-    private Integer order;
+    @Column(name = "`order`")
+    private Integer order; //顺序
 
     public Integer getId() {
         return id;

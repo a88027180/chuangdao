@@ -1,7 +1,6 @@
-package com.xiyoukeji.Service;
+package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Article;
-import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.BaseDaoImpl;
 import org.springframework.stereotype.Service;
 
@@ -94,6 +93,19 @@ public class ArticleService {
             return o2.get("id").toString().compareTo(o1.get("id").toString());
         });
         return list;
+    }
+
+    public void addArticle(Article article) {
+        articleBaseDao.save(article);
+    }
+
+    public void deleteArticle(Integer id) {
+        Article article = getArticleById(id);
+        articleBaseDao.delete(article);
+    }
+
+    public void editArticle(Article article) {
+        articleBaseDao.update(article);
     }
 
 }

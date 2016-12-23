@@ -1,12 +1,16 @@
 package com.xiyoukeji.controller;
 
-import com.xiyoukeji.Service.ArticleService;
-import com.xiyoukeji.Service.CarouselService;
+import com.xiyoukeji.entity.Video;
+import com.xiyoukeji.service.ArticleService;
+import com.xiyoukeji.service.CarouselService;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Carousel;
+import com.xiyoukeji.service.VideoService;
 import com.xiyoukeji.tools.State;
+import com.xiyoukeji.tools.UploadType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,7 +36,7 @@ public class HomeController {
     @Resource
     ArticleService articleService;
     @Resource
-    HttpServletRequest request;
+    VideoService videoService;
 
     @RequestMapping("/getCarouselList")
     @ResponseBody
@@ -42,7 +46,7 @@ public class HomeController {
         return map;
     }
 
-    @RequestMapping("/getArticle")
+    @RequestMapping(value = "/getArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map getArticleByTitle(String keyWord) {
         // 如果为空 xxxxx
@@ -51,47 +55,6 @@ public class HomeController {
         Map<String, List<Article>> map = new HashMap<>();
         map.put("list", articleService.getArticleByTitle(keyWord));
         return map;
-    }
-
-    @RequestMapping("/uploadFile")
-    @ResponseBody
-    public Map uploadFile(MultipartFile file) {
-        Map<String, Object> map = new HashMap<>();
-        if(file.isEmpty())
-        {
-            map.put("state", State.FILE_EMPTY.value());
-            map.put("detail", "File is empty");
-            return map;
-        }
-
-        // 保存路径
-        String dirPath = request.getSession().getServletContext().getRealPath("/upload/");
-        File dir = new File(dirPath);   // 目录不存在则创建
-        if(!dir.isDirectory())
-        {
-            boolean res = dir.mkdirs();
-            if (!res)
-            {
-                map.put("state", State.FAIL.value());
-                map.put("detail", "Upload directory create failed");
-                return map;
-            }
-        }
-
-        String filePath = dirPath+file.getOriginalFilename();
-        System.out.println("filePath: "+filePath);
-        // 转存文件
-        try {
-            file.transferTo(new File(filePath));
-            map.put("state", State.SUCCESS.value());
-            map.put("detail", "Upload success");
-            return map;
-        } catch (IOException e) {
-            e.printStackTrace();
-            map.put("state", State.FAIL.value());
-            map.put("detail", "Upload failed");
-            return map;
-        }
     }
 
 }

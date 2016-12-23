@@ -1,8 +1,7 @@
 package com.xiyoukeji.controller;
 
 import com.xiyoukeji.entity.Article;
-import com.xiyoukeji.service.SettingService;
-import com.xiyoukeji.entity.Setting;
+import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,20 +11,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * 8-联系我们
- *
- * Created by Matilda on 2016/12/14.
+ * Created by Matilda on 2016/12/20.
  */
 
 @Controller
-public class ContactController {
+public class ArticleController {
 
     @Resource
-    SettingService settingService;
+    ArticleService articleService;
 
     @ExceptionHandler
     @ResponseBody
@@ -36,38 +32,30 @@ public class ContactController {
         return map;
     }
 
-    @RequestMapping("/getAllContact")
+    @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
     @ResponseBody
-    public Map getContactInfo() {
-        Map<String, List<Setting>> map = new HashMap<>();
-        map.put("list", settingService.getContactInfo());
-        return map;
-    }
-
-    @RequestMapping(value = "/addSetting", method = RequestMethod.POST)
-    @ResponseBody
-    public Map addSetting(Setting setting) {
-        settingService.addSetting(setting);
+    public Map addArticle(Article article) {
+        articleService.addArticle(article);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.name());
         return map;
     }
 
-    @RequestMapping(value = "/deleteSetting", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteArticle", method = RequestMethod.POST)
     @ResponseBody
-    public Map deleteSetting(Integer id) {
-        settingService.deleteSetting(id);
+    public Map deleteArticle(Integer id) {
+        articleService.deleteArticle(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.name());
         return map;
     }
 
-    @RequestMapping("/editSetting")
+    @RequestMapping(value = "/editArticle", method = RequestMethod.POST)
     @ResponseBody
-    public Map editSetting(Setting setting) {
-        settingService.editSetting(setting);
+    public Map editArticle(Article article) {
+        articleService.editArticle(article);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.name());

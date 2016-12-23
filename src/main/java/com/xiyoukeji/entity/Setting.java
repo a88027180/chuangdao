@@ -25,6 +25,7 @@ public class Setting {
     @Column(columnDefinition = "text")
     private String value;
     private String description;
+    private String img;
 
     public Integer getId() {
         return id;

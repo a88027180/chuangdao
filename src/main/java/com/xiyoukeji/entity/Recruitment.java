@@ -3,6 +3,8 @@ package com.xiyoukeji.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 招聘信息
@@ -25,6 +27,9 @@ public class Recruitment {
     private String requirement;
     private String place;
     private String email;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "recruitment_attr")
+    private Map<String, String> attr;
 
     public Integer getId() {
         return id;
@@ -72,5 +77,13 @@ public class Recruitment {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Map<String, String> getAttr() {
+        return attr;
+    }
+
+    public void setAttr(Map<String, String> attr) {
+        this.attr = attr;
     }
 }

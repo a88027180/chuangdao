@@ -1,4 +1,4 @@
-package com.xiyoukeji.Service;
+package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Manager;
 import com.xiyoukeji.tools.BaseDaoImpl;

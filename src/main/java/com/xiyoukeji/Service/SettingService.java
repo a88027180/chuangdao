@@ -1,4 +1,4 @@
-package com.xiyoukeji.Service;
+package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.tools.BaseDao;
@@ -20,7 +20,11 @@ public class SettingService {
     @Resource
     BaseDao<Setting> settingBaseDao;
 
-    public Setting getSetting(String name) {
+    public Setting getSettingById(Integer id) {
+        return settingBaseDao.get(Setting.class, id);
+    }
+
+    public Setting getSettingByName(String name) {
         Map<String, Object> map = new HashMap<>();
         map.put("name",name);
         return settingBaseDao.get("from Setting s where s.name = :name", map);
@@ -32,10 +36,23 @@ public class SettingService {
         list.add(settingBaseDao.get("from Setting s where s.name = 'fax'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'email'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'address'"));
-        list.add(settingBaseDao.get("from Setting s where s.name = 'phone'"));
+        list.add(settingBaseDao.get("from Setting s where s.name = 'tel'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'cellphone'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'zipcode'"));
         return list;
+    }
+
+    public void addSetting(Setting setting) {
+        settingBaseDao.save(setting);
+    }
+
+    public void deleteSetting(Integer id) {
+        Setting setting = getSettingById(id);
+        settingBaseDao.delete(setting);
+    }
+
+    public void editSetting(Setting setting) {
+        settingBaseDao.update(setting);
     }
 
 }

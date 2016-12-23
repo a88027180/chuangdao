@@ -1,13 +1,12 @@
 package com.xiyoukeji.controller;
 
-import com.xiyoukeji.Service.*;
+import com.xiyoukeji.service.*;
 import com.xiyoukeji.entity.*;
 import com.xiyoukeji.tools.ArticleType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -40,7 +39,7 @@ public class AboutController {
     @ResponseBody
     public Map getCompanyIntroduction() {
         Map<String, Object> map =  new HashMap<>();
-        map.put("info", settingService.getSetting("introduction"));
+        map.put("info", settingService.getSettingByName("introduction"));
         return map;
     }
 
@@ -90,6 +89,5 @@ public class AboutController {
         map.put("list", partnerService.getPartnerList());
         return map;
     }
-
 
 }
