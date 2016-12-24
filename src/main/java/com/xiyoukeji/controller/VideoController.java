@@ -68,7 +68,7 @@ public class VideoController {
                 return map;
             }
             file.transferTo(f);
-            String url = "/uploads/"+fileName;
+            String url = "uploads/"+fileName;
             map.put("state", State.SUCCESS.value());
             map.put("detail", url);    // 文件存储的相对路径
 
