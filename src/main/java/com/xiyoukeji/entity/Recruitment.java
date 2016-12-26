@@ -21,14 +21,20 @@ public class Recruitment {
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
     private String position; // 职位
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "recruit_duty")
     @Column(columnDefinition = "text")
-    private String duty;
+    private List<String> duty;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "recruit_requirement")
     @Column(columnDefinition = "text")
-    private String requirement;
-    private String place;
+    private List<String> requirement;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "recruit_place")
+    private List<String> place;
     private String email;
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinTable(name = "recruitment_attr")
+    @JoinTable(name = "recruit_attr")
     private Map<String, String> attr;
 
     public Integer getId() {
@@ -47,27 +53,27 @@ public class Recruitment {
         this.position = position;
     }
 
-    public String getDuty() {
+    public List<String> getDuty() {
         return duty;
     }
 
-    public void setDuty(String duty) {
+    public void setDuty(List<String> duty) {
         this.duty = duty;
     }
 
-    public String getRequirement() {
+    public List<String> getRequirement() {
         return requirement;
     }
 
-    public void setRequirement(String requirement) {
+    public void setRequirement(List<String> requirement) {
         this.requirement = requirement;
     }
 
-    public String getPlace() {
+    public List<String> getPlace() {
         return place;
     }
 
-    public void setPlace(String place) {
+    public void setPlace(List<String> place) {
         this.place = place;
     }
 

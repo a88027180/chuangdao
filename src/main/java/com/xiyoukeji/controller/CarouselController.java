@@ -4,6 +4,7 @@ import com.xiyoukeji.entity.Carousel;
 import com.xiyoukeji.service.CarouselService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,15 @@ public class CarouselController {
 
     @Resource
     CarouselService carouselService;
+
+    @ExceptionHandler
+    @ResponseBody
+    public Map processException(RuntimeException e){
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.EXCEPTION.value());
+        map.put("detail", "Exception occurred");
+        return map;
+    }
 
     @RequestMapping(value = "/addCarousel", method = RequestMethod.POST)
     @ResponseBody

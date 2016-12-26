@@ -21,10 +21,12 @@ public class ArticleService {
         return articleBaseDao.get(Article.class, id);
     }
 
-    public List<Article> getArticleByType(String type) {
+    public List<Article> getArticleByType(String type) { // 异常
         Map<String, Object> map = new HashMap<>();
         map.put("type", type);
-        return articleBaseDao.find("from Article a where a.type = :type", map);
+        List<Article> list = articleBaseDao.find("from Article a where a.type = :type", map);
+        Collections.sort(list); // sort才能调用重写的compareTo, reverse不能，所以将reverse实现在compareTo中
+        return list;
     }
 
     public List<Article> getArticleByTitle(String keyWord) {

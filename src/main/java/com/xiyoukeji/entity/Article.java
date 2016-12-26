@@ -34,6 +34,14 @@ public class Article implements Comparable<Article>{
     private List<String> img;
     private String type;
 
+    public Article() {}
+
+    // for test
+    public Article(Integer id, Date time) {
+        this.id = id;
+        this.time = time;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -91,7 +99,6 @@ public class Article implements Comparable<Article>{
     }
 
     @Override
-    public int compareTo(Article o) {
-        return this.time.compareTo(o.getTime());
+        return o.getTime().compareTo(this.time);
     }
 }

@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Matilda on 2016/12/20.
@@ -27,7 +26,7 @@ public class ArticleController {
     @ResponseBody
     public Map processException(RuntimeException e){
         Map<String, Object> map = new HashMap<>();
-        map.put("state", State.FAIL.value());
+        map.put("state", State.EXCEPTION.value());
         map.put("detail", "Exception occurred");
         return map;
     }
@@ -62,4 +61,20 @@ public class ArticleController {
         return map;
     }
 
+    @RequestMapping("/getArticleForPage")
+    @ResponseBody
+    public Map getArticleForPage(int start, int length, String type) {
+        List<Article> articleList = articleService.getArticleByType(type);
+        List<Article> result = new ArrayList<>();
+        int end = start+length;
+        if(end > articleList.size())
+            end = articleList.size();
+        for (int i = start; i < end; i++) {
+            result.add(articleList.get(i));
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("countAll", articleList.size());
+        map.put("list", result);
+        return map;
+    }
 }

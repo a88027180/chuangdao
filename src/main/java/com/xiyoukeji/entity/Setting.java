@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 全局信息
@@ -25,7 +26,9 @@ public class Setting {
     @Column(columnDefinition = "text")
     private String value;
     private String description;
-    private String img;
+    @ElementCollection(fetch = FetchType.EAGER)
+    @JoinTable(name = "setting_img")
+    private List<String> img;
 
     public Integer getId() {
         return id;
@@ -57,5 +60,13 @@ public class Setting {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getImg() {
+        return img;
+    }
+
+    public void setImg(List<String> img) {
+        this.img = img;
     }
 }

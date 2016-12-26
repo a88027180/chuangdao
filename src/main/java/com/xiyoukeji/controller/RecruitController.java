@@ -31,7 +31,7 @@ public class RecruitController {
     @ResponseBody
     public Map processException(RuntimeException e){
         Map<String, Object> map = new HashMap<>();
-        map.put("state", State.FAIL.value());
+        map.put("state", State.EXCEPTION.value());
         map.put("detail", "Exception occurred");
         return map;
     }
@@ -43,8 +43,6 @@ public class RecruitController {
         map.put("list", recruitmentService.getRecruitmentList());
         return map;
     }
-
-
 
     @RequestMapping(value = "/addRecruitment", method = RequestMethod.POST)
     @ResponseBody

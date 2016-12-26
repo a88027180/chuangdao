@@ -30,11 +30,18 @@ public class SettingService {
         return settingBaseDao.get("from Setting s where s.name = :name", map);
     }
 
-    public List<Setting> getContactInfo() {
+    public List<Setting> getContact() {
         List<Setting> list = new ArrayList<>();
         list.add(settingBaseDao.get("from Setting s where s.name = 'hotline'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'fax'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'email'"));
+        list.add(settingBaseDao.get("from Setting s where s.name = 'weibo'"));
+        list.add(settingBaseDao.get("from Setting s where s.name = 'weixin'"));
+        return list;
+    }
+
+    public List<Setting> getFind() {
+        List<Setting> list = new ArrayList<>();
         list.add(settingBaseDao.get("from Setting s where s.name = 'address'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'tel'"));
         list.add(settingBaseDao.get("from Setting s where s.name = 'cellphone'"));

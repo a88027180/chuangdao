@@ -31,16 +31,24 @@ public class ContactController {
     @ResponseBody
     public Map processException(RuntimeException e){
         Map<String, Object> map = new HashMap<>();
-        map.put("state", State.FAIL.value());
+        map.put("state", State.EXCEPTION.value());
         map.put("detail", "Exception occurred");
         return map;
     }
 
-    @RequestMapping("/getAllContact")
+    @RequestMapping("/getContact")
     @ResponseBody
-    public Map getContactInfo() {
+    public Map getContact() {
         Map<String, List<Setting>> map = new HashMap<>();
-        map.put("list", settingService.getContactInfo());
+        map.put("list", settingService.getContact());
+        return map;
+    }
+
+    @RequestMapping("/getFind")
+    @ResponseBody
+    public Map getFind() {
+        Map<String, List<Setting>> map = new HashMap<>();
+        map.put("list", settingService.getFind());
         return map;
     }
 
