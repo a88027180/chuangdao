@@ -99,7 +99,7 @@ public class Article implements Comparable<Article>{
     }
 
     @Override
-    public int compareTo(Article o) {  
+    public int compareTo(Article o) {
         return o.getTime().compareTo(this.time);
     }
 }

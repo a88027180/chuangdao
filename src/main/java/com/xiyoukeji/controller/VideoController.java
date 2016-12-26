@@ -54,18 +54,18 @@ public class VideoController {
 
         // 保存路径
         String fileName = file.getOriginalFilename();
-        String url;
+        String dir;
         if(type == UploadType.VIDEO.ordinal())
         {
-            url = "uploads/video/"+fileName;
+            dir = "uploads/video/";
         }
         else
-            url = "uploads/img/"+fileName;
-        String dirPath = request.getSession().getServletContext().getRealPath("/"+url);
-        File dir = new File(dirPath);   // 目录不存在则创建
-        if(!dir.isDirectory())
+            dir = "uploads/img/";
+        String dirPath = request.getSession().getServletContext().getRealPath("/"+dir);
+        File dirFile = new File(dirPath);   // 目录不存在则创建
+        if(!dirFile.isDirectory())
         {
-            boolean res = dir.mkdirs();
+            boolean res = dirFile.mkdirs();
             if (!res)
             {
                 map.put("state", State.FAIL.value());
@@ -77,6 +77,8 @@ public class VideoController {
         String filePath = dirPath+fileName;
 
         System.out.println("filePath: "+filePath);
+        System.out.println(request.getContextPath());
+
         // 转存文件
         try {
             File f = new File(filePath);
@@ -88,11 +90,12 @@ public class VideoController {
             }
             file.transferTo(f);
             map.put("state", State.SUCCESS.value());
-            map.put("detail", url);    // 文件存储的相对路径
+//            map.put("detail", dir+fileName);    // 文件存储的相对路径
+            map.put("detail", filePath);
 
             if(type == UploadType.VIDEO.ordinal()) {            // 视频
                 Video video = new Video();
-                video.setUrl(url);
+                video.setUrl(dir+fileName);
                 videoService.addVideo(video);
             }
 

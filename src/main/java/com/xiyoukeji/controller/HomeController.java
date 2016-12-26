@@ -57,4 +57,10 @@ public class HomeController {
         return map;
     }
 
+    // test upload
+    @RequestMapping(value = "/test")
+    public String testUpload() {
+        return "test";
+    }
+
 }
