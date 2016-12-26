@@ -34,14 +34,6 @@ public class Article implements Comparable<Article>{
     private List<String> img;
     private String type;
 
-    public Article() {}
-
-    // for test
-    public Article(Integer id, Date time) {
-        this.id = id;
-        this.time = time;
-    }
-
     public Integer getId() {
         return id;
     }

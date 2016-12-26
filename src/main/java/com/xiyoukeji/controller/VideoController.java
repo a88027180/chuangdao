@@ -6,10 +6,7 @@ import com.xiyoukeji.service.VideoService;
 import com.xiyoukeji.tools.State;
 import com.xiyoukeji.tools.UploadType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -47,8 +44,8 @@ public class VideoController {
         Map<String, Object> map = new HashMap<>();
         if(file.isEmpty())
         {
-            map.put("state", State.FILE_EMPTY.value());
-            map.put("detail", "File is empty");
+            map.put("state", State.FAIL.value());
+            map.put("detail", "该文件为空");
             return map;
         }
 
@@ -57,11 +54,11 @@ public class VideoController {
         String dir;
         if(type == UploadType.VIDEO.ordinal())
         {
-            dir = "uploads/video/";
+            dir = "/uploads/video/";
         }
         else
-            dir = "uploads/img/";
-        String dirPath = request.getSession().getServletContext().getRealPath("/"+dir);
+            dir = "/uploads/img/";
+        String dirPath = request.getSession().getServletContext().getRealPath(dir);
         File dirFile = new File(dirPath);   // 目录不存在则创建
         if(!dirFile.isDirectory())
         {
@@ -69,15 +66,12 @@ public class VideoController {
             if (!res)
             {
                 map.put("state", State.FAIL.value());
-                map.put("detail", "Upload directory create failed");
+                map.put("detail", "上传目录新建失败");
                 return map;
             }
         }
 
         String filePath = dirPath+fileName;
-
-        System.out.println("filePath: "+filePath);
-        System.out.println(request.getContextPath());
 
         // 转存文件
         try {
@@ -85,13 +79,12 @@ public class VideoController {
             if(f.exists())
             {
                 map.put("state", State.FAIL.value());
-                map.put("detail", "File name used");
+                map.put("detail", "文件名已被使用");
                 return map;
             }
             file.transferTo(f);
             map.put("state", State.SUCCESS.value());
-//            map.put("detail", dir+fileName);    // 文件存储的相对路径
-            map.put("detail", filePath);
+            map.put("detail", dir+fileName);    // 文件存储的相对路径
 
             if(type == UploadType.VIDEO.ordinal()) {            // 视频
                 Video video = new Video();
@@ -102,8 +95,8 @@ public class VideoController {
             return map;
         } catch (IOException e) {
             e.printStackTrace();
-            map.put("state", State.FAIL.value());
-            map.put("detail", "Upload failed");
+            map.put("state", State.UPLOAD_FAIL.value());
+            map.put("detail", State.UPLOAD_FAIL.desc());
             return map;
         }
     }
@@ -122,7 +115,7 @@ public class VideoController {
         videoService.deleteVideo(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
@@ -132,7 +125,29 @@ public class VideoController {
         videoService.editVideo(video);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
+
+    @RequestMapping("/deleteImg")
+    @ResponseBody
+    public Map deleteImg(String url) {  //url为相对路径
+        Map<String, Object> map = new HashMap<>();
+        File file = new File(request.getSession().getServletContext().getRealPath(url));
+        if(!file.exists() || file.isDirectory()) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "该图片不存在");
+            return map;
+        }
+        boolean res = file.delete();
+        if (!res) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "图片删除失败");
+            return map;
+        }
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", "图片删除成功");
+        return map;
+    }
+
 }

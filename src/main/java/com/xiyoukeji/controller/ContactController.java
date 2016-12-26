@@ -58,7 +58,7 @@ public class ContactController {
         settingService.addSetting(setting);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
@@ -68,7 +68,7 @@ public class ContactController {
         settingService.deleteSetting(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
@@ -78,7 +78,7 @@ public class ContactController {
         settingService.editSetting(setting);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 

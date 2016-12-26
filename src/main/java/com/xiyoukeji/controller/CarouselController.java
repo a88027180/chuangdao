@@ -38,7 +38,7 @@ public class CarouselController {
         carouselService.addCarousel(carousel);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
@@ -48,7 +48,7 @@ public class CarouselController {
         carouselService.deleteCarousel(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state",State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
@@ -58,7 +58,7 @@ public class CarouselController {
         carouselService.editCarousel(carousel);
         Map<String, Object> map = new HashMap<>();
         map.put("state",State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.name());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 }
