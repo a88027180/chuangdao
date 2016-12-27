@@ -1,8 +1,7 @@
 package com.xiyoukeji.controller;
 
-import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Video;
-import com.xiyoukeji.service.VideoService;
+import com.xiyoukeji.service.FileService;
 import com.xiyoukeji.tools.State;
 import com.xiyoukeji.tools.UploadType;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,10 +22,10 @@ import java.util.Map;
  */
 
 @Controller
-public class VideoController {
+public class FileController {
 
     @Resource
-    VideoService videoService;
+    FileService fileService;
     @Resource
     HttpServletRequest request;
 
@@ -40,7 +40,7 @@ public class VideoController {
 
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
-    public Map uploadFile(MultipartFile file, int type) {
+    public Map uploadFile(MultipartFile file, String name, int type) {
         Map<String, Object> map = new HashMap<>();
         if(file.isEmpty())
         {
@@ -88,8 +88,9 @@ public class VideoController {
 
             if(type == UploadType.VIDEO.ordinal()) {            // 视频
                 Video video = new Video();
+                video.setName(name==null?"":name);
                 video.setUrl(dir+fileName);
-                videoService.addVideo(video);
+                fileService.addVideo(video);
             }
 
             return map;
@@ -105,14 +106,14 @@ public class VideoController {
     @ResponseBody
     public Map getVideoList() {
         Map<String, List<Video>> map = new HashMap<>();
-        map.put("list", videoService.getVideoList());
+        map.put("list", fileService.getVideoList());
         return map;
     }
 
     @RequestMapping(value = "/deleteVideo", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteVideo(Integer id) {
-        videoService.deleteVideo(id);
+        fileService.deleteVideo(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -122,7 +123,7 @@ public class VideoController {
     @RequestMapping(value = "/editVideo", method = RequestMethod.POST)
     @ResponseBody
     public Map editVideo(Video video) {
-        videoService.editVideo(video);
+        fileService.editVideo(video);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -150,4 +151,29 @@ public class VideoController {
         return map;
     }
 
+    @RequestMapping("/getImgList")
+    @ResponseBody
+    public Map getImgList() {
+        Map<String, List<String>> map = new HashMap<>();
+        List<String> imgs = new ArrayList<>();
+        File file = new File(request.getSession().getServletContext().getRealPath("/uploads/img/"));
+        if(!file.exists() || !file.isDirectory())
+        {
+            map.put("list", imgs);
+            return map;
+        }
+
+        File[] files = file.listFiles();
+        if(files == null)
+        {
+            map.put("list", imgs);
+            return map;
+        }
+
+        for (File f : files) {
+            imgs.add("/uploads/img/" + f.getName());
+        }
+        map.put("list", imgs);
+        return map;
+    }
 }

@@ -41,10 +41,20 @@ public class UserController {
         return map;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/userLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Map login(User user, HttpSession session) {
-        State s = userService.login(user, session);
+    public Map userLogin(User user, HttpSession session) {
+        State s = userService.userLogin(user, session);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", s.value());
+        map.put("detail", s.desc());
+        return map;
+    }
+
+    @RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
+    @ResponseBody
+    public Map adminLogin(User user, HttpSession session) {
+        State s = userService.adminLogin(user, session);
         Map<String, Object> map = new HashMap<>();
         map.put("state", s.value());
         map.put("detail", s.desc());

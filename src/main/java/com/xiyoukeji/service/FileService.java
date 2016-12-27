@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Service
-public class VideoService {
+public class FileService {
 
     @Resource
     BaseDaoImpl<Video> videoBaseDao;

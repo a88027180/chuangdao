@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Matilda on 2016/12/20.
@@ -19,7 +20,9 @@ public class Video {
     @GeneratedValue(generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
-    private String url;
+    private String name;
+    @NotNull
+    private String url; // 视频地址
     private String img;
 
     public Integer getId() {
@@ -28,6 +31,14 @@ public class Video {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUrl() {

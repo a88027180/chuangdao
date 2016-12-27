@@ -1,6 +1,7 @@
 package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Article;
+import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.BaseDaoImpl;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +47,11 @@ public class ArticleService {
             map.put("name", a.getTitle());
             map.put("time", a.getTime());
 
-//            // 发展历程包含：id, name, time (可以空的summary)
-//            if(type.equals(ArticleType.DEVELOPMENT.name()))
-//            {
-//                list.add(map);
-//                continue;
-//            }
+            // 发展历程多一条url
+            if(type.equals(ArticleType.DEVELOPMENT.name()))
+            {
+                map.put("url", a.getUrl());
+            }
 
 
             List<String> imgList = a.getImg();

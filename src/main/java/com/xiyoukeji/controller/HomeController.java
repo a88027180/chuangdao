@@ -1,25 +1,17 @@
 package com.xiyoukeji.controller;
 
 import com.xiyoukeji.entity.Setting;
-import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.service.CarouselService;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Carousel;
 import com.xiyoukeji.service.SettingService;
-import com.xiyoukeji.service.VideoService;
-import com.xiyoukeji.tools.State;
-import com.xiyoukeji.tools.UploadType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +29,6 @@ public class HomeController {
     CarouselService carouselService;
     @Resource
     ArticleService articleService;
-    @Resource
-    VideoService videoService;
     @Resource
     SettingService settingService;
 

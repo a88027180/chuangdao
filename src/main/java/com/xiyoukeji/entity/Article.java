@@ -32,6 +32,7 @@ public class Article implements Comparable<Article>{
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "article_img")
     private List<String> img;
+    private String url; // 发展历程的连接
     private String type;
 
     public Integer getId() {
@@ -80,6 +81,14 @@ public class Article implements Comparable<Article>{
 
     public void setImg(List<String> img) {
         this.img = img;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getType() {

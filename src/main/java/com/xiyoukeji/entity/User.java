@@ -22,6 +22,7 @@ public class User {
     private String password;
     @Lob
     private String questionnaire; // 问卷填写情况，未填写则为空
+    private int type;   //管理员0， 普通用户1
 
     public Integer getId() {
         return id;
@@ -53,5 +54,13 @@ public class User {
 
     public void setQuestionnaire(String questionnaire) {
         this.questionnaire = questionnaire;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
