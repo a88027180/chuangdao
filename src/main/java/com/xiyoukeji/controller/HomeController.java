@@ -1,10 +1,12 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.service.CarouselService;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Carousel;
+import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.service.VideoService;
 import com.xiyoukeji.tools.State;
 import com.xiyoukeji.tools.UploadType;
@@ -37,6 +39,8 @@ public class HomeController {
     ArticleService articleService;
     @Resource
     VideoService videoService;
+    @Resource
+    SettingService settingService;
 
     @RequestMapping("/getCarouselList")
     @ResponseBody
@@ -54,6 +58,14 @@ public class HomeController {
         // 如果不为空
         Map<String, List<Article>> map = new HashMap<>();
         map.put("list", articleService.getArticleByTitle(keyWord));
+        return map;
+    }
+
+    @RequestMapping("/getLinks")
+    @ResponseBody
+    public Map getLinks() {
+        Map<String, List<Setting>> map = new HashMap<>();
+        map.put("list", settingService.getLinks());
         return map;
     }
 

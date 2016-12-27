@@ -17,8 +17,24 @@ public class ManagerService {
     @Resource
     BaseDaoImpl<Manager> managerBaseDao;
 
+    public Manager getManagerById(Integer id) {
+        return managerBaseDao.get(Manager.class, id);
+    }
+
     public List<Manager> getManagerTeamList() {
         return managerBaseDao.find("from Manager");
     }
 
+    public void addManager(Manager manager) {
+        managerBaseDao.save(manager);
+    }
+
+    public void deleteManager(Integer id) {
+        Manager manager = getManagerById(id);
+        managerBaseDao.delete(manager);
+    }
+
+    public void editManager(Manager manager) {
+        managerBaseDao.update(manager);
+    }
 }

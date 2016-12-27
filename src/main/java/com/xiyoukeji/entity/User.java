@@ -2,10 +2,7 @@ package com.xiyoukeji.entity;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -19,16 +16,12 @@ public class User {
     @GeneratedValue(generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
-
     @NotNull
     private String name;
     @NotNull
     private String password;
-
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
+    @Lob
+    private String questionnaire; // 问卷填写情况，未填写则为空
 
     public Integer getId() {
         return id;
@@ -52,5 +45,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(String questionnaire) {
+        this.questionnaire = questionnaire;
     }
 }

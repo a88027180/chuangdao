@@ -2,7 +2,6 @@ package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Carousel;
 import com.xiyoukeji.tools.BaseDaoImpl;
-import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

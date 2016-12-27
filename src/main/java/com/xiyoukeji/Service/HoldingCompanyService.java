@@ -21,4 +21,21 @@ public class HoldingCompanyService {
         return holdingCompanyBaseDao.find("from HoldingCompany");
     }
 
+    public HoldingCompany getCompanyById(Integer id) {
+        return holdingCompanyBaseDao.get(HoldingCompany.class, id);
+    }
+
+    public void addCompany(HoldingCompany company) {
+        holdingCompanyBaseDao.save(company);
+    }
+
+    public void deleteCompany(Integer id) {
+        HoldingCompany company = getCompanyById(id);
+        holdingCompanyBaseDao.delete(company);
+    }
+
+    public void editCompany(HoldingCompany company) {
+        holdingCompanyBaseDao.update(company);
+    }
+
 }

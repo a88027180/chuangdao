@@ -62,4 +62,7 @@ public class SettingService {
         settingBaseDao.update(setting);
     }
 
+    public List<Setting> getLinks() {
+        return settingBaseDao.find("from Setting s where s.name = 'links'");
+    }
 }

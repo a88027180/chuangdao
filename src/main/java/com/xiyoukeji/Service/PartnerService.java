@@ -20,4 +20,21 @@ public class PartnerService {
     public List<Partner> getPartnerList () {
         return partnerBaseDao.find("from Partner");
     }
+
+    public Partner getPartnerById(Integer id) {
+        return partnerBaseDao.get(Partner.class, id);
+    }
+
+    public void addPartner(Partner partner) {
+        partnerBaseDao.save(partner);
+    }
+
+    public void deletePartner(Integer id) {
+        Partner partner = getPartnerById(id);
+        partnerBaseDao.delete(partner);
+    }
+
+    public void editPartner(Partner partner) {
+        partnerBaseDao.update(partner);
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,10 +34,10 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public Map register(User user) {
-        userService.register(user);
+        State s = userService.register(user);
         Map<String, Object> map = new HashMap<>();
-        map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.desc());
+        map.put("state", s.value());
+        map.put("detail", s.desc());
         return map;
     }
 
@@ -47,6 +48,14 @@ public class UserController {
         Map<String, Object> map = new HashMap<>();
         map.put("state", s.value());
         map.put("detail", s.desc());
+        return map;
+    }
+
+    @RequestMapping("/getUserList")
+    @ResponseBody
+    public Map getUserList() {
+        Map<String, List<User>> map = new HashMap<>();
+        map.put("list", userService.getUserList());
         return map;
     }
 }
