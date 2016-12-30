@@ -2,13 +2,13 @@ package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.tools.BaseDao;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Matilda on 2016/12/12.
@@ -17,6 +17,8 @@ import java.util.Map;
 @Service
 public class SettingService {
 
+    @Resource
+    SessionFactory sessionFactory;
     @Resource
     BaseDao<Setting> settingBaseDao;
 
@@ -40,13 +42,19 @@ public class SettingService {
         return list;
     }
 
-    public List<Setting> getFind() {
-        List<Setting> list = new ArrayList<>();
-        list.add(settingBaseDao.get("from Setting s where s.name = 'address'"));
-        list.add(settingBaseDao.get("from Setting s where s.name = 'tel'"));
-        list.add(settingBaseDao.get("from Setting s where s.name = 'cellphone'"));
-        list.add(settingBaseDao.get("from Setting s where s.name = 'zipcode'"));
-        return list;
+    public Set<String> getTypes() {
+        Session session = sessionFactory.getCurrentSession();
+        String hql = "select type from Setting";
+        Query query = session.createQuery(hql);
+        Set<String> set = new HashSet<>();
+        set.addAll(query.list());
+        if(set.contains(null))
+            set.remove(null);
+        return set;
+    }
+
+    public List<Setting> getFindByType(String type) {
+        return settingBaseDao.find("from Setting s where s.type = '"+type+"'");
     }
 
     public void addSetting(Setting setting) {

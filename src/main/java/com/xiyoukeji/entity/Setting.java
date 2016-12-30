@@ -29,6 +29,7 @@ public class Setting {
     @ElementCollection(fetch = FetchType.EAGER)
     @JoinTable(name = "setting_img")
     private List<String> img;
+    private String type; //地点
 
     public Integer getId() {
         return id;

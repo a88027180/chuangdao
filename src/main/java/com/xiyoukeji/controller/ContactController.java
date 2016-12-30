@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 8-联系我们
@@ -47,8 +45,26 @@ public class ContactController {
     @RequestMapping("/getFind")
     @ResponseBody
     public Map getFind() {
-        Map<String, List<Setting>> map = new HashMap<>();
-        map.put("list", settingService.getFind());
+        Map<String, List<Map<String, String>>> map = new HashMap<>();
+        List<Map<String, String>> list = new ArrayList<>();
+        Set<String> types = settingService.getTypes();
+        for (String type: types) {
+            List<Setting> finds = settingService.getFindByType(type);
+            Map<String, String> findMap = new HashMap<>();
+            findMap.put("type", type);
+            for (Setting find: finds) {
+                findMap.put(find.getName(), find.getValue());
+                if(find.getName().equals("address")) {
+                    List<String> l = find.getImg();
+                    if(l.size() == 0)
+                        findMap.put("img", "" );
+                    else
+                        findMap.put("img", l.get(0));
+                }
+            }
+            list.add(findMap);
+        }
+        map.put("list", list);
         return map;
     }
 
