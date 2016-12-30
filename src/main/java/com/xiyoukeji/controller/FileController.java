@@ -135,7 +135,7 @@ public class FileController {
     public Map deleteImg(String url) {  //url为相对路径
         Map<String, Object> map = new HashMap<>();
         File file = new File(request.getSession().getServletContext().getRealPath(url));
-        if(!file.exists() || file.isDirectory()) {
+        if(!file.exists()) {
             map.put("state", State.FAIL.value());
             map.put("detail", "该图片不存在");
             return map;

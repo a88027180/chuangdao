@@ -64,8 +64,8 @@ public class ArticleController {
     @RequestMapping("/getArticleForPage")
     @ResponseBody
     public Map getArticleForPage(int start, int length, String type) {
-        List<Article> articleList = articleService.getArticleByType(type);
-        List<Article> result = new ArrayList<>();
+        List<Map<String, Object>> articleList = articleService.getArticleDisplayList(0, type);
+        List<Map<String, Object>> result = new ArrayList<>();
         int end = start+length;
         if(end > articleList.size())
             end = articleList.size();
