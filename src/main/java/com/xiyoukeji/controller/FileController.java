@@ -2,6 +2,7 @@ package com.xiyoukeji.controller;
 
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.FileService;
+import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.tools.State;
 import com.xiyoukeji.tools.UploadType;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,8 @@ public class FileController {
 
     @Resource
     FileService fileService;
+    @Resource
+    SettingService settingService;
     @Resource
     HttpServletRequest request;
 
@@ -53,11 +56,12 @@ public class FileController {
         String fileName = file.getOriginalFilename();
         String dir;
         if(type == UploadType.VIDEO.ordinal())
-        {
             dir = "/uploads/video/";
-        }
-        else
+        else if(type == UploadType.IMAGE.ordinal())
             dir = "/uploads/img/";
+        else
+            dir = "/uploads/pdf/";
+
         String dirPath = request.getSession().getServletContext().getRealPath(dir);
         File dirFile = new File(dirPath);   // 目录不存在则创建
         if(!dirFile.isDirectory())
@@ -110,10 +114,20 @@ public class FileController {
         return map;
     }
 
-    @RequestMapping(value = "/deleteVideo", method = RequestMethod.POST)
+    @RequestMapping(value = "/setHomeVideo", method = RequestMethod.POST)
     @ResponseBody
-    public Map deleteVideo(Integer id) {
-        fileService.deleteVideo(id);
+    public Map setHomeVideo(Video video) {
+        settingService.setHomeVideo(video);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping(value = "/setHomeImg", method = RequestMethod.POST)
+    @ResponseBody
+    public Map setHomeImg(String url) {
+        settingService.setHomeImg(url);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -130,24 +144,47 @@ public class FileController {
         return map;
     }
 
-    @RequestMapping("/deleteImg")
+    @RequestMapping(value = "/editHomeImg", method = RequestMethod.POST)
     @ResponseBody
-    public Map deleteImg(String url) {  //url为相对路径
+    public Map editHomeImg(String pre_url, String cur_url) {
+        settingService.editHomeImg(pre_url, cur_url);
         Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping("/deleteFile")
+    @ResponseBody
+    public Map deleteFile(String url, Integer type) {  //url为相对路径
+        Map<String, Object> map = new HashMap<>();
+        if((url.startsWith("/uploads/img") && type!= UploadType.IMAGE.ordinal()) ||
+                url.startsWith("/uploads/video") && type != UploadType.VIDEO.ordinal() ||
+                url.startsWith("/uploads/pdf") && type != UploadType.PDF.ordinal()) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "文件类型不匹配");
+            return map;
+        }
         File file = new File(request.getSession().getServletContext().getRealPath(url));
         if(!file.exists()) {
             map.put("state", State.FAIL.value());
-            map.put("detail", "该图片不存在");
+            map.put("detail", "该文件不存在");
             return map;
         }
         boolean res = file.delete();
         if (!res) {
             map.put("state", State.FAIL.value());
-            map.put("detail", "图片删除失败");
+            map.put("detail", "文件删除失败");
             return map;
         }
+        if(type == UploadType.VIDEO.ordinal()) {
+            fileService.deleteVideoByUrl(url);
+            settingService.deleteHomeVideo();
+        } else if(type == UploadType.IMAGE.ordinal()) {
+            settingService.deleteHomeImg(url);
+        }
         map.put("state", State.SUCCESS.value());
-        map.put("detail", "图片删除成功");
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
@@ -176,4 +213,7 @@ public class FileController {
         map.put("list", imgs);
         return map;
     }
+
+
+
 }

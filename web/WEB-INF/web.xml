@@ -65,4 +65,8 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--设置session超时时间，貌似自带30分钟销毁的设置-->
+    <session-config>
+        <session-timeout>60</session-timeout>
+    </session-config>
 </web-app>

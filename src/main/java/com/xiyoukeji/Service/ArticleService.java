@@ -47,8 +47,8 @@ public class ArticleService {
             map.put("name", a.getTitle());
             map.put("time", a.getTime());
 
-            // 发展历程多一条url
-            if(type.equals(ArticleType.DEVELOPMENT.name()))
+            // 发展历程和企业内刊多一条url
+            if(type.equals(ArticleType.DEVELOPMENT.name()) || type.equals(ArticleType.MAGAZINE.name()))
             {
                 map.put("url", a.getUrl());
             }

@@ -70,4 +70,12 @@ public class Setting {
     public void setImg(List<String> img) {
         this.img = img;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

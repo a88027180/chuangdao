@@ -55,23 +55,23 @@ public class ProductController {
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping("/getServiceExperience")
-    @ResponseBody
-    public Article getServiceExperience () {
-        List<Article> list = articleService.getArticleByType(ArticleType.SERVICE_EXPERIENCE.name());
-        if(list.size() == 0)
-            return null;
-        return list.get(0);
-    }
-
-    @RequestMapping("/getRiskControl")
-    @ResponseBody
-    public Article getRiskControl () {
-        List<Article> list = articleService.getArticleByType(ArticleType.COMPLIANCE_RISK_CONTROL.name());
-        if(list.size() == 0)
-            return null;
-        return list.get(0);
-    }
+//    @RequestMapping("/getServiceExperience")
+//    @ResponseBody
+//    public Article getServiceExperience () {
+//        List<Article> list = articleService.getArticleByType(ArticleType.SERVICE_EXPERIENCE.name());
+//        if(list.size() == 0)
+//            return null;
+//        return list.get(0);
+//    }
+//
+//    @RequestMapping("/getRiskControl")
+//    @ResponseBody
+//    public Article getRiskControl () {
+//        List<Article> list = articleService.getArticleByType(ArticleType.COMPLIANCE_RISK_CONTROL.name());
+//        if(list.size() == 0)
+//            return null;
+//        return list.get(0);
+//    }
 
 
 }

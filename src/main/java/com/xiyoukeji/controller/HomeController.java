@@ -1,17 +1,21 @@
 package com.xiyoukeji.controller;
 
 import com.xiyoukeji.entity.Setting;
+import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.service.CarouselService;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Carousel;
 import com.xiyoukeji.service.SettingService;
+import com.xiyoukeji.tools.ArticleType;
+import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +44,9 @@ public class HomeController {
         return map;
     }
 
-    @RequestMapping(value = "/getArticle", method = RequestMethod.POST)
+    @RequestMapping(value = "/searchArticle", method = RequestMethod.POST)
     @ResponseBody
-    public Map getArticleByTitle(String keyWord) {
+    public Map searchArticle(String keyWord) {
         // 如果为空 xxxxx
 
         // 如果不为空
@@ -59,10 +63,50 @@ public class HomeController {
         return map;
     }
 
+    @RequestMapping("/getHomeVideo")
+    @ResponseBody
+    public Map getHomeVideo() {
+        return settingService.getHomeVideo();
+    }
+
+    @RequestMapping("/getArticleSquare")
+    @ResponseBody
+    public Map getArticleSquare() {
+        List<String> ids = settingService.getArticleSquareID();
+        Map<String, List<Article>> map = new HashMap<>();
+        List<Article> articles = new ArrayList<>();
+        if(ids.size() != 0) {
+            for (String id: ids) {
+                articles.add(articleService.getArticleById(Integer.valueOf(id)));
+            }
+        }
+        map.put("list", articles);
+        return map;
+    }
+
+    @RequestMapping("/getHomeArticle")
+    @ResponseBody
+    public Article getHomeArticle() {
+        List<Article> list = articleService.getArticleByType(ArticleType.HOME_ARTICLE.name());
+        if(list.size() == 0)
+            return null;
+        return list.get(0);
+    }
+
+    @RequestMapping("/getHomeImg")
+    @ResponseBody
+    public Map getHomeImg() {
+        Map<String, List<String>> map = new HashMap<>();
+        map.put("list", settingService.getHomeImg());
+        return map;
+    }
+
     // test upload
     @RequestMapping(value = "/test")
     public String testUpload() {
         return "test";
     }
+
+
 
 }

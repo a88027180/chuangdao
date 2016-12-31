@@ -20,6 +20,8 @@ public class User {
     private String name;
     @NotNull
     private String password;
+    private String date;
+    private Integer times;
     @Lob
     private String questionnaire; // 问卷填写情况，未填写则为空
     private int type;   //管理员0， 普通用户1
@@ -46,6 +48,22 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public Integer getTimes() {
+        return times;
+    }
+
+    public void setTimes(Integer times) {
+        this.times = times;
     }
 
     public String getQuestionnaire() {

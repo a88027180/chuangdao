@@ -2,6 +2,7 @@ package com.xiyoukeji.controller;
 
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.service.ArticleService;
+import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,8 @@ public class ArticleController {
 
     @Resource
     ArticleService articleService;
+    @Resource
+    SettingService settingService;
 
     @ExceptionHandler
     @ResponseBody
@@ -45,6 +48,7 @@ public class ArticleController {
     @ResponseBody
     public Map deleteArticle(Integer id) {
         articleService.deleteArticle(id);
+        settingService.deleteArticleSquare(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -75,6 +79,26 @@ public class ArticleController {
         Map<String, Object> map = new HashMap<>();
         map.put("countAll", articleList.size());
         map.put("list", result);
+        return map;
+    }
+
+    @RequestMapping(value = "/setArticleSquare", method = RequestMethod.POST)
+    @ResponseBody
+    public Map setArticleSquare(Integer id){
+        settingService.setArticleSquare(id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping(value = "/editArticleSquare")
+    @ResponseBody
+    public Map editArticleSquare(Integer pre_id, Integer cur_id){
+        settingService.editArticleSquare(pre_id, cur_id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
         return map;
     }
 }

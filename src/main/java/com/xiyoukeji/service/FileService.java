@@ -2,6 +2,7 @@ package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.tools.BaseDaoImpl;
+import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -38,4 +39,12 @@ public class FileService {
         return videoBaseDao.find("from Video");
     }
 
+    public void deleteVideoByUrl(String url) {
+        List<Video> videos = videoBaseDao.find("from Video v where v.url = '"+url+"'");
+        if(videos.size()!=0) {
+            for (Video video: videos) {
+                videoBaseDao.delete(video);
+            }
+        }
+    }
 }

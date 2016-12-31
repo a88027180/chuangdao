@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +70,49 @@ public class UserService {
         }
     }
 
+    public boolean isSubmitted(HttpSession session) {
+        String name = (String)session.getAttribute("name");
+        if( name == null)
+            return false;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        User user = userBaseDao.get("from User u where u.name = :name", map);
+
+        return user.getQuestionnaire()!=null;
+    }
+
+    public boolean isLogin(HttpSession session) {
+        return session.getAttribute("name") != null;
+    }
+
+    public State submitQuestionnaire(String questionnaire, HttpSession session) {
+        String name = (String)session.getAttribute("name");
+        if( name == null)
+            return State.LOGIN_EXPIRE;
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        User user = userBaseDao.get("from User u where u.name = :name", map);
+        if(user == null)
+            return State.USER_NOT_EXIST;
+
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = formatter.format(currentTime);
+        if(user.getDate().equals(date) && user.getTimes()==3)
+            return State.SUBMIT_EXCEED;
+        user.setDate(date);
+        user.setTimes(user.getTimes()+1);
+        user.setQuestionnaire(questionnaire);
+        userBaseDao.update(user);
+        return State.SUCCESS;
+    }
+
     public List<User> getUserList() {
         return userBaseDao.find("from User");
     }
+
+
 
 }

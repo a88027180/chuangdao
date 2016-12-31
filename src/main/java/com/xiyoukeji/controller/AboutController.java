@@ -82,6 +82,15 @@ public class AboutController {
         return map;
     }
 
+    @RequestMapping("/getResponsibility")
+    @ResponseBody
+    public Article getResponsibility() {
+        List<Article> list = articleService.getArticleByType(ArticleType.RESPONSIBILITY.name());
+        if(list.size() == 0)
+            return null;
+        return list.get(0);
+    }
+
     @RequestMapping("/getPartnerList")
     @ResponseBody
     public Map getPartnerList() {
@@ -90,4 +99,11 @@ public class AboutController {
         return map;
     }
 
+    @RequestMapping("/getMagazineList")
+    @ResponseBody
+    public Map getMagazineList() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("list", articleService.getArticleDisplayList(0, ArticleType.MAGAZINE.name()));
+        return map;
+    }
 }

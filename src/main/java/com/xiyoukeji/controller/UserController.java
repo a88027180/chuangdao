@@ -61,6 +61,29 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping("/isLogin")
+    @ResponseBody
+    public boolean isLogin(HttpSession session) {
+        return userService.isLogin(session);
+    }
+
+    @RequestMapping("/isSubmitted")
+    @ResponseBody
+    public boolean isSubmitted(HttpSession session) {
+        return userService.isSubmitted(session);
+    }
+
+
+    @RequestMapping("/submitQuestionnaire")
+    @ResponseBody
+    public Map submitQuestionnaire(String questionnaire, HttpSession session) {
+        State s = userService.submitQuestionnaire(questionnaire, session);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", s.value());
+        map.put("detail", s.desc());
+        return map;
+    }
+
     @RequestMapping("/getUserList")
     @ResponseBody
     public Map getUserList() {
@@ -68,4 +91,5 @@ public class UserController {
         map.put("list", userService.getUserList());
         return map;
     }
+
 }
