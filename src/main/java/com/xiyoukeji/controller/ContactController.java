@@ -45,14 +45,15 @@ public class ContactController {
     @RequestMapping("/getFind")
     @ResponseBody
     public Map getFind() {
-        Map<String, List<Map<String, String>>> map = new HashMap<>();
-        List<Map<String, String>> list = new ArrayList<>();
+        Map<String, List<Map<String, Object>>> map = new HashMap<>();
+        List<Map<String, Object>> list = new ArrayList<>();
         Set<String> types = settingService.getTypes();
         for (String type: types) {
             List<Setting> finds = settingService.getFindByType(type);
-            Map<String, String> findMap = new HashMap<>();
+            Map<String, Object> findMap = new HashMap<>();
             findMap.put("type", type);
             for (Setting find: finds) {
+                findMap.put("id", find.getId());
                 findMap.put(find.getName(), find.getValue());
                 if(find.getName().equals("address")) {
                     List<String> l = find.getImg();
