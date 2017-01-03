@@ -6,10 +6,7 @@ import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -112,7 +109,7 @@ public class ArticleController {
 
     @RequestMapping(value = "/setArticleSquares", method = RequestMethod.POST)
     @ResponseBody
-    public Map setArticleSquares(Integer[] ids){
+    public Map setArticleSquares(@RequestParam(value = "ids") Integer[] ids){
         Map<String, Object> map = new HashMap<>();
         settingService.deleteArticleSquares();  // 清除原先设置信息
         for (Integer id: ids) {
