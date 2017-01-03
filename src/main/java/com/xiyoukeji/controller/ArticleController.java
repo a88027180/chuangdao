@@ -59,7 +59,7 @@ public class ArticleController {
     @ResponseBody
     public Map deleteArticle(Integer id) {
         articleService.deleteArticle(id);
-        settingService.deleteArticleSquare(id);
+//        settingService.deleteArticleSquares();
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -105,6 +105,19 @@ public class ArticleController {
         }
         settingService.setArticleSquare(id);
 
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping(value = "/setArticleSquares", method = RequestMethod.POST)
+    @ResponseBody
+    public Map setArticleSquares(Integer[] ids){
+        Map<String, Object> map = new HashMap<>();
+        settingService.deleteArticleSquares();  // 清除原先设置信息
+        for (Integer id: ids) {
+            settingService.setArticleSquare(id);
+        }
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;

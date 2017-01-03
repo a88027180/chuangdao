@@ -143,11 +143,14 @@ public class SettingService {
         settingBaseDao.delete(setting);
     }
 
-    public void deleteArticleSquare(Integer id) {
-        Setting setting = settingBaseDao.get("from Setting as s where s.name = 'home_article_square' and s.value = '"+id+"'");
-        if(setting == null)
+    public void deleteArticleSquares() {
+        List<Setting> settings = settingBaseDao.find("from Setting as s where s.name = 'home_article_square'");
+        if(settings == null)
             return;
-        settingBaseDao.delete(setting);
+        for (Setting s: settings) {
+            settingBaseDao.delete(s);
+        }
+
     }
 
     public void deleteHomeImg(String url) {
