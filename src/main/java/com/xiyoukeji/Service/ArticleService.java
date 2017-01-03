@@ -53,36 +53,12 @@ public class ArticleService {
                 map.put("url", a.getUrl());
             }
 
-
             List<String> imgList = a.getImg();
             if (imgList.size() == 0)
                 map.put("img", ""); // 图片不存在
             else
                 map.put("img", a.getImg().get(0));
 
-//            // 添加预览文字(从文章头部截取)
-//            String text = a.getText();
-//            text = text.replaceAll("<.+?>", "");
-//            if(text.length() < length)
-//            {
-//                map.put("text",text);
-//            }
-//            else
-//            {
-//                // 避免字符实体如&nbsp;被切割
-//                String result = text.substring(0,length);
-//                int newLength = length;
-//                int lastAnd = result.lastIndexOf("&");
-//                int lastSemicolon = result.lastIndexOf(";");
-//
-//                while (lastAnd>0 && lastAnd>lastSemicolon) {
-//                    newLength += 7;     // 最长的字符实体如：&middot;
-//                    result = text.substring(0, newLength);
-//                    lastAnd = result.lastIndexOf("&");
-//                    lastSemicolon = result.lastIndexOf(";");
-//                }
-//                map.put("text", result);
-//            }
             map.put("summary", a.getSummary());
 
             list.add(map);

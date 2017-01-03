@@ -3,6 +3,7 @@ package com.xiyoukeji.controller;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.service.SettingService;
+import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,8 +38,18 @@ public class ArticleController {
     @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map addArticle(Article article) {
-        articleService.addArticle(article);
         Map<String, Object> map = new HashMap<>();
+        // 添加首页文章不能超过1篇
+        if(article.getType().equals(ArticleType.HOME_ARTICLE.name())) {
+            List<Article> list = articleService.getArticleByType(ArticleType.HOME_ARTICLE.name());
+            if(list.size() != 0) {
+                map.put("state", State.SUCCESS.value());
+                map.put("detail", State.SUCCESS.desc()+": 1");
+                return map;
+            }
+        }
+        articleService.addArticle(article);
+
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;
@@ -89,7 +100,7 @@ public class ArticleController {
         Map<String, Object> map = new HashMap<>();
         if(ids.size()==5) {
             map.put("state", State.SET_EXCEED.value());
-            map.put("detail", State.SET_EXCEED.desc()+": "+5);
+            map.put("detail", State.SET_EXCEED.desc()+": 5");
             return map;
         }
         settingService.setArticleSquare(id);

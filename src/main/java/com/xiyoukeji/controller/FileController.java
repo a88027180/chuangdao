@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -115,12 +116,19 @@ public class FileController {
 
     @RequestMapping(value = "/setHomeVideo", method = RequestMethod.POST)
     @ResponseBody
-    public Map setHomeVideo(Video video) {
-        Setting setting = settingService.getHomeVideo();
+    public Map setHomeVideo(Integer id) {
+        Video video = fileService.getVideoById(id);
         Map<String, Object> map = new HashMap<>();
+
+        if(video == null) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "对应文件资源不存在");
+            return map;
+        }
+        Setting setting = settingService.getHomeVideo();
         if(setting != null) {
             map.put("state", State.SET_EXCEED.value());
-            map.put("detail", State.SET_EXCEED.desc()+": "+1);
+            map.put("detail", State.SET_EXCEED.desc()+": 1");
             return map;
         }
         settingService.setHomeVideo(video);
@@ -137,7 +145,7 @@ public class FileController {
         Map<String, Object> map = new HashMap<>();
         if(list.size()==9) {
             map.put("state", State.SET_EXCEED.value());
-            map.put("detail", State.SET_EXCEED.desc()+": "+9);
+            map.put("detail", State.SET_EXCEED.desc()+": 9");
             return map;
         }
         settingService.setHomeImg(url);
@@ -202,38 +210,21 @@ public class FileController {
 
     @RequestMapping("/getImgList")
     @ResponseBody
-    public Map getImgList() {
-        Map<String, List<String>> map = new HashMap<>();
-        List<String> imgs = new ArrayList<>();
-        File file = new File(request.getSession().getServletContext().getRealPath("/uploads/img/"));
-        if(!file.exists() || !file.isDirectory())
-        {
-            map.put("list", imgs);
-            return map;
-        }
+    public Map getImgList(HttpServletRequest request) { // 不能直接用HttpSession
+        return fileService.getFileList(request.getSession(), 1);
+    }
 
-        File[] files = file.listFiles();
-        if(files == null)
-        {
-            map.put("list", imgs);
-            return map;
-        }
+    @RequestMapping("/getPdfList")
+    @ResponseBody
+    public Map getPdfList(HttpServletRequest request) {
+        return fileService.getFileList(request.getSession(), 2);
+    }
 
-        List<File> list = new ArrayList<>();
-        Collections.addAll(list, files);    // 列表转换
 
-        Collections.sort(list, (o1, o2) -> {
-            long time1 = o1.lastModified();
-            long time2 = o2.lastModified();
-            return String.valueOf(time2).compareTo(String.valueOf(time1));
-        });
-
-        for (File f : list) {
-            imgs.add("/uploads/img/" + f.getName());
-        }
-        map.put("list", imgs);
-
-        return map;
+    @RequestMapping(value = "/searchFile", method = RequestMethod.POST)
+    @ResponseBody
+    public Map searchFile(String keyWord, int type, HttpServletRequest request) {
+        return fileService.searchFile(keyWord, request, type);
     }
 
 
