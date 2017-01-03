@@ -66,7 +66,16 @@ public class HomeController {
     @RequestMapping("/getHomeVideo")
     @ResponseBody
     public Map getHomeVideo() {
-        return settingService.getHomeVideo();
+        Setting setting = settingService.getHomeVideo();
+        Map<String, String> map = new HashMap<>();
+        if(setting == null) {
+            map.put("url", ""); //放null最后请求得到的就是null
+            map.put("img", "");
+            return map;
+        }
+        map.put("url", setting.getValue());
+        map.put("img", setting.getDescription());
+        return map;
     }
 
     @RequestMapping("/getArticleSquare")

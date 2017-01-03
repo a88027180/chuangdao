@@ -99,17 +99,9 @@ public class SettingService {
         settingBaseDao.save(setting);
     }
 
-    public Map getHomeVideo() {
+    public Setting getHomeVideo() {
         Setting setting = settingBaseDao.get("from Setting as s where s.name = 'home_video'");
-        Map<String, String> map = new HashMap<>();
-        if(setting == null) {
-            map.put("url", "");
-            map.put("img", "");
-            return map;
-        }
-        map.put("url", setting.getValue());
-        map.put("img", setting.getDescription());
-        return map;
+        return setting;
     }
 
     public List<String> getArticleSquareID() {

@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.FileService;
 import com.xiyoukeji.service.SettingService;
@@ -13,10 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Matilda on 2016/12/23.
@@ -93,6 +91,7 @@ public class FileController {
             if(type == UploadType.VIDEO.ordinal()) {            // 视频
                 Video video = new Video();
                 video.setName(name==null?"":name);
+                video.setImg("");
                 video.setUrl(dir+fileName);
                 fileService.addVideo(video);
             }
@@ -117,8 +116,15 @@ public class FileController {
     @RequestMapping(value = "/setHomeVideo", method = RequestMethod.POST)
     @ResponseBody
     public Map setHomeVideo(Video video) {
-        settingService.setHomeVideo(video);
+        Setting setting = settingService.getHomeVideo();
         Map<String, Object> map = new HashMap<>();
+        if(setting != null) {
+            map.put("state", State.SET_EXCEED.value());
+            map.put("detail", State.SET_EXCEED.desc()+": "+1);
+            return map;
+        }
+        settingService.setHomeVideo(video);
+
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;
@@ -127,8 +133,14 @@ public class FileController {
     @RequestMapping(value = "/setHomeImg", method = RequestMethod.POST)
     @ResponseBody
     public Map setHomeImg(String url) {
-        settingService.setHomeImg(url);
+        List<String> list = settingService.getHomeImg();
         Map<String, Object> map = new HashMap<>();
+        if(list.size()==9) {
+            map.put("state", State.SET_EXCEED.value());
+            map.put("detail", State.SET_EXCEED.desc()+": "+9);
+            return map;
+        }
+        settingService.setHomeImg(url);
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;
@@ -207,10 +219,20 @@ public class FileController {
             return map;
         }
 
-        for (File f : files) {
+        List<File> list = new ArrayList<>();
+        Collections.addAll(list, files);    // 列表转换
+
+        Collections.sort(list, (o1, o2) -> {
+            long time1 = o1.lastModified();
+            long time2 = o2.lastModified();
+            return String.valueOf(time2).compareTo(String.valueOf(time1));
+        });
+
+        for (File f : list) {
             imgs.add("/uploads/img/" + f.getName());
         }
         map.put("list", imgs);
+
         return map;
     }
 

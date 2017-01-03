@@ -85,8 +85,15 @@ public class ArticleController {
     @RequestMapping(value = "/setArticleSquare", method = RequestMethod.POST)
     @ResponseBody
     public Map setArticleSquare(Integer id){
-        settingService.setArticleSquare(id);
+        List<String> ids = settingService.getArticleSquareID();
         Map<String, Object> map = new HashMap<>();
+        if(ids.size()==5) {
+            map.put("state", State.SET_EXCEED.value());
+            map.put("detail", State.SET_EXCEED.desc()+": "+5);
+            return map;
+        }
+        settingService.setArticleSquare(id);
+
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;

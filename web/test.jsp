@@ -18,6 +18,11 @@
         <input type="hidden" name="type" value="1">
         <input type="submit" value="提交">
     </form>
+    <form action="/uploadFile" method="post" enctype="multipart/form-data">
+        上传pdf:<input type="file" name="file">
+        <input type="hidden" name="type" value="2">
+        <input type="submit" value="提交">
+    </form>
 
     <form action="/check" method="post">
         验证码：<input type="text" name="validateCode" />
