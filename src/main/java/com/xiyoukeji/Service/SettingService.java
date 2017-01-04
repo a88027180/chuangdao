@@ -109,6 +109,8 @@ public class SettingService {
         if(setting != null) {
             Integer id = Integer.valueOf(setting.getValue());
             video = fileService.getVideoById(id);
+            if(video == null)
+                video = new Video();
         }
         return video;
     }

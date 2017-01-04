@@ -37,15 +37,24 @@ public class ArticleController {
     public Map addArticle(Article article) {
         Map<String, Object> map = new HashMap<>();
         // 添加首页文章不能超过1篇
-        if(article.getType().equals(ArticleType.HOME_ARTICLE.name())) {
+        if(article.getType().equals(ArticleType.HOME_ARTICLE.name()) ||
+                article.getType().equals(ArticleType.RESPONSIBILITY.name())) {
             List<Article> list = articleService.getArticleByType(ArticleType.HOME_ARTICLE.name());
             if(list.size() != 0) {
-                map.put("state", State.SUCCESS.value());
-                map.put("detail", State.SUCCESS.desc()+": 1");
-                return map;
+//                map.put("state", State.SUCCESS.value());
+//                map.put("detail", State.SUCCESS.desc()+": 1");
+//                return map;
+                // 若已经存在则修改文章, 添加缺少的id参数
+                article.setId(list.get(0).getId());
+                articleService.editArticle(article);
+            }
+            else {
+                articleService.addArticle(article);
             }
         }
-        articleService.addArticle(article);
+        else {
+            articleService.addArticle(article);
+        }
 
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
