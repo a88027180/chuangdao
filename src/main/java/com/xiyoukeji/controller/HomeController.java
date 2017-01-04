@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.sun.javafx.geom.Vec2d;
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.ArticleService;
@@ -65,31 +66,33 @@ public class HomeController {
 
     @RequestMapping("/getHomeVideo")
     @ResponseBody
-    public Map getHomeVideo() {
-        Setting setting = settingService.getHomeVideo();
-        Map<String, String> map = new HashMap<>();
-        if(setting == null) {
-            map.put("url", ""); //放null最后请求得到的就是null
-            map.put("img", "");
-            return map;
-        }
-        map.put("url", setting.getValue());
-        map.put("img", setting.getDescription());
-        return map;
+    public Video getHomeVideo() {
+        return settingService.getHomeVideo();
     }
 
     @RequestMapping("/getArticleSquare")
     @ResponseBody
     public Map getArticleSquare() {
-        List<String> ids = settingService.getArticleSquareID();
+        List<Integer> ids = settingService.getArticleSquareID();
         Map<String, List<Article>> map = new HashMap<>();
         List<Article> articles = new ArrayList<>();
         if(ids.size() != 0) {
-            for (String id: ids) {
-                articles.add(articleService.getArticleById(Integer.valueOf(id)));
+            for (Integer id: ids) {
+                Article article = articleService.getArticleById(id);
+                if(article == null)
+                    article = new Article();
+                articles.add(article);
             }
         }
         map.put("list", articles);
+        return map;
+    }
+
+    @RequestMapping("/getArticleSquareID")
+    @ResponseBody
+    public Map getArticleSquareID() {
+        Map<String, List<Integer>> map = new HashMap<>();
+        map.put("list", settingService.getArticleSquareID());
         return map;
     }
 

@@ -117,21 +117,9 @@ public class FileController {
     @RequestMapping(value = "/setHomeVideo", method = RequestMethod.POST)
     @ResponseBody
     public Map setHomeVideo(Integer id) {
-        Video video = fileService.getVideoById(id);
         Map<String, Object> map = new HashMap<>();
-
-        if(video == null) {
-            map.put("state", State.FAIL.value());
-            map.put("detail", "对应文件资源不存在");
-            return map;
-        }
-        Setting setting = settingService.getHomeVideo();
-        if(setting != null) {
-            map.put("state", State.SET_EXCEED.value());
-            map.put("detail", State.SET_EXCEED.desc()+": 1");
-            return map;
-        }
-        settingService.setHomeVideo(video);
+        settingService.deleteHomeVideo();
+        settingService.setHomeVideo(id);
 
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -149,6 +137,19 @@ public class FileController {
             return map;
         }
         settingService.setHomeImg(url);
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping(value = "/setHomeImgs", method = RequestMethod.POST)
+    @ResponseBody
+    public Map setHomeImgs(@RequestParam(value = "urls") String[] urls) {
+        Map<String, Object> map = new HashMap<>();
+        settingService.deleteHomeImgs();  // 清除原先设置信息
+        for (String url: urls) {
+            settingService.setHomeImg(url);
+        }
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;
@@ -200,9 +201,10 @@ public class FileController {
         if(type == UploadType.VIDEO.ordinal()) {
             fileService.deleteVideoByUrl(url);
             settingService.deleteHomeVideo();
-        } else if(type == UploadType.IMAGE.ordinal()) {
-            settingService.deleteHomeImg(url);
         }
+//        else if(type == UploadType.IMAGE.ordinal()) {
+//            settingService.deleteHomeImg();
+//        }
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;

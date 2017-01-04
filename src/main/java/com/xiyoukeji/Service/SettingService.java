@@ -1,5 +1,6 @@
 package com.xiyoukeji.service;
 
+import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.tools.BaseDao;
@@ -22,6 +23,10 @@ public class SettingService {
     SessionFactory sessionFactory;
     @Resource
     BaseDao<Setting> settingBaseDao;
+    @Resource
+    FileService fileService;
+    @Resource
+    ArticleService articleService;
 
     public Setting getSettingById(Integer id) {
         return settingBaseDao.get(Setting.class, id);
@@ -74,12 +79,11 @@ public class SettingService {
         return settingBaseDao.find("from Setting as s where s.name = 'links'");
     }
 
-    public void setHomeVideo(Video video) {
-        // 要解决重复设置的问题
+    public void setHomeVideo(Integer id) {
         Setting setting = new Setting();
-        setting.setDescription(video.getImg()); // 图片
+        setting.setDescription("首页视频");
         setting.setName("home_video");
-        setting.setValue(video.getUrl());
+        setting.setValue(String.valueOf(id));
         settingBaseDao.save(setting);
     }
 
@@ -99,16 +103,34 @@ public class SettingService {
         settingBaseDao.save(setting);
     }
 
-    public Setting getHomeVideo() {
+    public Video getHomeVideo() {
         Setting setting = settingBaseDao.get("from Setting as s where s.name = 'home_video'");
-        return setting;
+        Video video = new Video();
+        if(setting != null) {
+            Integer id = Integer.valueOf(setting.getValue());
+            video = fileService.getVideoById(id);
+            if(id == null)
+                video = new Video();
+        }
+        return video;
     }
 
-    public List<String> getArticleSquareID() {
+    public List<Integer> getArticleSquareID() {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select s.value from Setting as s where s.name = 'home_article_square'");
         List<String> ids = query.list();
-        return query.list();
+        List<Integer> list = new ArrayList<>();
+        if(ids.size() != 0) {
+            for(String id: ids) {
+                Article article = articleService.getArticleById(Integer.valueOf(id));
+                if(article != null)
+                    list.add(Integer.valueOf(id));
+                else
+                    list.add(-1);
+            }
+        }
+
+        return list;
     }
 
     public List<String> getHomeImg() {
@@ -153,11 +175,13 @@ public class SettingService {
 
     }
 
-    public void deleteHomeImg(String url) {
-        Setting setting = settingBaseDao.get("from Setting as s where s.name = 'home_image' and s.value = '"+url+"'");
-        if(setting == null)
+    public void deleteHomeImgs() {
+        List<Setting> settings = settingBaseDao.find("from Setting as s where s.name = 'home_image'");
+        if(settings == null)
             return;
-        settingBaseDao.delete(setting);
+        for (Setting s: settings) {
+            settingBaseDao.delete(s);
+        }
     }
 
 
