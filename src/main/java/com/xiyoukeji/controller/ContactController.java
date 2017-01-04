@@ -4,10 +4,7 @@ import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -70,7 +67,13 @@ public class ContactController {
 
     @RequestMapping(value = "/addSetting", method = RequestMethod.POST)
     @ResponseBody
-    public Map addSetting(Setting setting) {
+    public Map addSetting(String name, String value, String description, @RequestParam(value = "img") List<String> img) {
+        Setting setting = new Setting();
+        setting.setName(name);
+        setting.setValue(value);
+        setting.setDescription(description);
+        setting.setImg(img);
+
         settingService.addSetting(setting);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
@@ -90,7 +93,14 @@ public class ContactController {
 
     @RequestMapping("/editSetting")
     @ResponseBody
-    public Map editSetting(Setting setting) {
+    public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img) {
+        Setting setting = new Setting();
+        setting.setId(id);
+        setting.setName(name);
+        setting.setValue(value);
+        setting.setDescription(description);
+        setting.setImg(img);
+
         settingService.editSetting(setting);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());

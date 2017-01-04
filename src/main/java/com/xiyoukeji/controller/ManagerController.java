@@ -4,13 +4,11 @@ import com.xiyoukeji.entity.Manager;
 import com.xiyoukeji.service.ManagerService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +32,18 @@ public class ManagerController {
 
     @RequestMapping(value = "/addManager", method = RequestMethod.POST)
     @ResponseBody
-    public Map addManager(Manager manager) {
+    public Map addManager(String name, String spell, String appellation, String main_title,
+                          @RequestParam(value = "sub_title", required = false) List<String> sub_title,
+                          String description, String img) {
+        Manager manager = new Manager();
+        manager.setName(name);
+        manager.setSpell(spell);
+        manager.setAppellation(appellation);
+        manager.setMain_title(main_title);
+        manager.setSub_title(sub_title);
+        manager.setDescription(description);
+        manager.setImg(img);
+
         managerService.addManager(manager);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
@@ -54,7 +63,19 @@ public class ManagerController {
 
     @RequestMapping(value = "/editManager", method = RequestMethod.POST)
     @ResponseBody
-    public Map editManager(Manager manager) {
+    public Map editManager(Integer id, String name, String spell, String appellation, String main_title,
+                           @RequestParam(value = "sub_title") List<String> sub_title,
+                           String description, String img) {
+        Manager manager = new Manager();
+        manager.setId(id);
+        manager.setName(name);
+        manager.setSpell(spell);
+        manager.setAppellation(appellation);
+        manager.setMain_title(main_title);
+        manager.setSub_title(sub_title);
+        manager.setDescription(description);
+        manager.setImg(img);
+
         managerService.editManager(manager);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());

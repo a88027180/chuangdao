@@ -5,10 +5,7 @@ import com.xiyoukeji.service.RecruitmentService;
 import com.xiyoukeji.entity.Recruitment;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -46,7 +43,15 @@ public class RecruitController {
 
     @RequestMapping(value = "/addRecruitment", method = RequestMethod.POST)
     @ResponseBody
-    public Map addArticle(Recruitment recruitment) {
+    public Map addRecruitment(String position, @RequestParam(value = "duty") List<String> duty, @RequestParam(value = "requirement") List<String> requirement,
+                              @RequestParam(value = "place") List<String> place, String email ) {
+        Recruitment recruitment = new Recruitment();
+        recruitment.setPosition(position);
+        recruitment.setDuty(duty);
+        recruitment.setRequirement(requirement);
+        recruitment.setPlace(place);
+        recruitment.setEmail(email);
+
         recruitmentService.addRecruitment(recruitment);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
@@ -66,7 +71,16 @@ public class RecruitController {
 
     @RequestMapping(value = "/editRecruitment", method = RequestMethod.POST)
     @ResponseBody
-    public Map editRecruitment(Recruitment recruitment) {
+    public Map editRecruitment(Integer id, String position, @RequestParam(value = "duty") List<String> duty, @RequestParam(value = "requirement") List<String> requirement,
+                               @RequestParam(value = "place") List<String> place, String email) {
+        Recruitment recruitment = new Recruitment();
+        recruitment.setId(id);
+        recruitment.setPosition(position);
+        recruitment.setDuty(duty);
+        recruitment.setRequirement(requirement);
+        recruitment.setPlace(place);
+        recruitment.setEmail(email);
+
         recruitmentService.editRecruitment(recruitment);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
