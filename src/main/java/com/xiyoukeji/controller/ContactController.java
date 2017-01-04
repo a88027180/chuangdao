@@ -1,6 +1,5 @@
 package com.xiyoukeji.controller;
 
-import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.tools.State;

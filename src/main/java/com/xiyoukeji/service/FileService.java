@@ -2,7 +2,6 @@ package com.xiyoukeji.service;
 
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.tools.BaseDaoImpl;
-import com.xiyoukeji.tools.State;
 import com.xiyoukeji.tools.UploadType;
 import org.springframework.stereotype.Service;
 

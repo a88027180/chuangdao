@@ -1,6 +1,5 @@
 package com.xiyoukeji.controller;
 
-import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.FileService;
 import com.xiyoukeji.service.SettingService;
@@ -12,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

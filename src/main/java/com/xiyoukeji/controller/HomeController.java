@@ -1,6 +1,5 @@
 package com.xiyoukeji.controller;
 
-import com.sun.javafx.geom.Vec2d;
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.ArticleService;
@@ -9,7 +8,6 @@ import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.entity.Carousel;
 import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.tools.ArticleType;
-import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -78,10 +76,7 @@ public class HomeController {
         List<Article> articles = new ArrayList<>();
         if(ids.size() != 0) {
             for (Integer id: ids) {
-                Article article = articleService.getArticleById(id);
-                if(article == null)
-                    article = new Article();
-                articles.add(article);
+                articles.add(articleService.getArticleById(id));
             }
         }
         map.put("list", articles);
