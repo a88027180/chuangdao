@@ -100,12 +100,25 @@ public class UserService {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String date = formatter.format(currentTime);
-        if(user.getDate().equals(date) && user.getTimes()==3)
+
+        String userDate = user.getDate();
+        // 当天第一次提交
+        if(userDate == null || !userDate.equals(date)) {
+            user.setDate(date);
+            user.setQuestionnaire(questionnaire);
+            user.setTimes(1);
+            userBaseDao.update(user);
+            return State.SUCCESS;
+        }
+
+        // 多次提交
+        if(user.getTimes()>=3)
             return State.SUBMIT_EXCEED;
-        user.setDate(date);
+
         user.setTimes(user.getTimes()+1);
         user.setQuestionnaire(questionnaire);
         userBaseDao.update(user);
+
         return State.SUCCESS;
     }
 

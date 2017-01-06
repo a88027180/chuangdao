@@ -223,8 +223,23 @@ public class FileController {
 
     @RequestMapping(value = "/readError")
     @ResponseBody
-    public String readFile() throws Exception {
+    public String readError() throws Exception {
         File file = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/logs/err"));
+        if(!file.exists())
+            return "";
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String s;
+        StringBuilder sb = new StringBuilder();
+        while((s = br.readLine())!=null ) {
+            sb.append(s);
+        }
+        return sb.toString();
+    }
+
+    @RequestMapping(value = "/readInfo")
+    @ResponseBody
+    public String readInfo() throws Exception {
+        File file = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/logs/info"));
         if(!file.exists())
             return "";
         BufferedReader br = new BufferedReader(new FileReader(file));

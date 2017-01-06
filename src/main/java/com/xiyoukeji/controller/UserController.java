@@ -66,7 +66,7 @@ public class UserController {
     }
 
 
-    @RequestMapping("/submitQuestionnaire")
+    @RequestMapping(value = "/submitQuestionnaire", method = RequestMethod.POST)
     @ResponseBody
     public Map submitQuestionnaire(String questionnaire, HttpSession session) {
         State s = userService.submitQuestionnaire(questionnaire, session);
