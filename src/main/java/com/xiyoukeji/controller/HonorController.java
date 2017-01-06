@@ -23,15 +23,6 @@ public class HonorController {
     @Resource
     HonorService honorService;
 
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", State.EXCEPTION.desc());
-        return map;
-    }
-
     @RequestMapping(value = "/addHonor", method = RequestMethod.POST)
     @ResponseBody
     public Map addHonor(Honor honor) {

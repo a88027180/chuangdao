@@ -23,15 +23,6 @@ public class CarouselController {
     @Resource
     CarouselService carouselService;
 
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", "Exception occurred");
-        return map;
-    }
-
     @RequestMapping(value = "/addCarousel", method = RequestMethod.POST)
     @ResponseBody
     public Map addCarousel(Carousel carousel) {

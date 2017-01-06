@@ -21,7 +21,7 @@ public class Article implements Comparable<Article>{
     @GeneratedValue(generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
-    private Date time;
+    private Date time; // null会导致无法加入数据库
     @NotNull
     private String title;
     @Column(columnDefinition = "text")

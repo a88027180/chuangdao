@@ -23,15 +23,6 @@ public class PartnerController {
     @Resource
     PartnerService partnerService;
 
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", State.EXCEPTION.desc());
-        return map;
-    }
-
     @RequestMapping(value = "/addPartner", method = RequestMethod.POST)
     @ResponseBody
     public Map addPartner(Partner partner) {

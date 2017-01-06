@@ -23,15 +23,6 @@ public class ArticleController {
     @Resource
     SettingService settingService;
 
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", State.EXCEPTION.desc());
-        return map;
-    }
-
     @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map addArticle(Article article) {

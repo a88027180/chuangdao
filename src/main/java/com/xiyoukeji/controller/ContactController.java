@@ -21,15 +21,6 @@ public class ContactController {
     @Resource
     SettingService settingService;
 
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", "Exception occurred");
-        return map;
-    }
-
     @RequestMapping("/getContact")
     @ResponseBody
     public Map getContact() {
@@ -49,15 +40,18 @@ public class ContactController {
             Map<String, Object> findMap = new HashMap<>();
             findMap.put("type", type);
             for (Setting find: finds) {
-                findMap.put("id", find.getId());
-                findMap.put(find.getName(), find.getValue());
+                Map<String, Object> settingMap = new HashMap<>();
+                settingMap.put("id", find.getId());
+                settingMap.put("value", find.getValue());
+
                 if(find.getName().equals("address")) {
                     List<String> l = find.getImg();
                     if(l.size() == 0)
-                        findMap.put("img", "" );
+                        settingMap.put("img", "" );
                     else
-                        findMap.put("img", l.get(0));
+                        settingMap.put("img", l.get(0));
                 }
+                findMap.put(find.getName(), settingMap);
             }
             list.add(findMap);
         }
@@ -67,12 +61,13 @@ public class ContactController {
 
     @RequestMapping(value = "/addSetting", method = RequestMethod.POST)
     @ResponseBody
-    public Map addSetting(String name, String value, String description, @RequestParam(value = "img") List<String> img) {
+    public Map addSetting(String name, String value, String description, @RequestParam(value = "img", required = false) List<String> img, String type) {
         Setting setting = new Setting();
         setting.setName(name);
         setting.setValue(value);
         setting.setDescription(description);
         setting.setImg(img);
+        setting.setType(type);
 
         settingService.addSetting(setting);
         Map<String, Object> map = new HashMap<>();
@@ -93,13 +88,14 @@ public class ContactController {
 
     @RequestMapping("/editSetting")
     @ResponseBody
-    public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img) {
+    public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img, String type) {
         Setting setting = new Setting();
         setting.setId(id);
         setting.setName(name);
         setting.setValue(value);
         setting.setDescription(description);
         setting.setImg(img);
+        setting.setType(type);
 
         settingService.editSetting(setting);
         Map<String, Object> map = new HashMap<>();

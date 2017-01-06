@@ -3,12 +3,16 @@ package com.xiyoukeji.service;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.tools.BaseDaoImpl;
 import com.xiyoukeji.tools.UploadType;
+import org.apache.log4j.PropertyConfigurator;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,6 +25,22 @@ public class FileService {
 
     @Resource
     BaseDaoImpl<Video> videoBaseDao;
+    @Resource
+    ServletContext servletContext;
+
+    @PostConstruct
+    void initLogger() {
+        try {
+            Properties properties = new Properties();
+            properties.load(this.getClass().getClassLoader().getResourceAsStream("log4j.properties"));
+            String realPath = servletContext.getRealPath("/WEB-INF/logs/");
+            properties.setProperty("log4j.appender.out.File", realPath + properties.getProperty("log4j.appender.out.File"));
+            properties.setProperty("log4j.appender.err.File", realPath + properties.getProperty("log4j.appender.err.File"));
+            PropertyConfigurator.configure(properties);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
 
     public Map<String, List<String>> getFileList(HttpSession session, int type) {
         Map<String, List<String>> map = new HashMap<>();

@@ -24,15 +24,6 @@ public class RecruitController {
     @Resource
     RecruitmentService recruitmentService;
 
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", "Exception occurred");
-        return map;
-    }
-
     @RequestMapping("/getRecruitmentList")
     @ResponseBody
     public Map getRecruitmentInfo() {

@@ -11,8 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -28,15 +27,6 @@ public class FileController {
     SettingService settingService;
     @Resource
     HttpServletRequest request;
-
-    @ExceptionHandler
-    @ResponseBody
-    public Map processException(RuntimeException e){
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.EXCEPTION.value());
-        map.put("detail", "Exception occurred");
-        return map;
-    }
 
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
@@ -116,6 +106,10 @@ public class FileController {
     @ResponseBody
     public Map setHomeVideo(Integer id) {
         Map<String, Object> map = new HashMap<>();
+        if(id == null) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "视频id不能为空");
+        }
         settingService.deleteHomeVideo();
         settingService.setHomeVideo(id);
 
@@ -227,6 +221,19 @@ public class FileController {
         return fileService.searchFile(keyWord, request, type);
     }
 
-
+    @RequestMapping(value = "/readError")
+    @ResponseBody
+    public String readFile() throws Exception {
+        File file = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/logs/err"));
+        if(!file.exists())
+            return "";
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String s;
+        StringBuilder sb = new StringBuilder();
+        while((s = br.readLine())!=null ) {
+            sb.append(s);
+        }
+        return sb.toString();
+    }
 
 }
