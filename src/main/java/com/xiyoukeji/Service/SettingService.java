@@ -184,5 +184,21 @@ public class SettingService {
         }
     }
 
+    public void addFindUs(String[] names, String[] values) {
+        for(int i=0; i<names.length; i++) {
+            Setting setting = new Setting();
+            setting.setName(names[i]);
+            setting.setValue(values[i]);
+            settingBaseDao.save(setting);
+        }
+    }
+
+    public void editFindUs(Integer[] ids, String[] values) {
+        for(int i=0; i<ids.length; i++) {
+            Setting setting = getSettingById(ids[0]);
+            setting.setValue(values[i]);
+            settingBaseDao.update(setting);
+        }
+    }
 
 }

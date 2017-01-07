@@ -84,4 +84,15 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map deleteUser(Integer id) {
+        userService.deleteUser(id);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+
 }

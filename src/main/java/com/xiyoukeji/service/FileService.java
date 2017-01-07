@@ -50,6 +50,8 @@ public class FileService {
             url = "/uploads/img/";
         } else if(type == UploadType.PDF.ordinal()) {
             url = "/uploads/pdf/";
+        } else if(type == UploadType.VIDEO.ordinal()) {
+            url = "/uploads/video/";
         }
         File file = new File(session.getServletContext().getRealPath(url));
         if(!file.exists() || !file.isDirectory())

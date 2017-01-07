@@ -126,6 +126,9 @@ public class UserService {
         return userBaseDao.find("from User");
     }
 
-
+    public void deleteUser(Integer id) {
+        User user = userBaseDao.get(User.class, id);
+        userBaseDao.delete(user);
+    }
 
 }

@@ -44,13 +44,6 @@ public class ContactController {
                 settingMap.put("id", find.getId());
                 settingMap.put("value", find.getValue());
 
-                if(find.getName().equals("address")) {
-                    List<String> l = find.getImg();
-                    if(l.size() == 0)
-                        settingMap.put("img", "" );
-                    else
-                        settingMap.put("img", l.get(0));
-                }
                 findMap.put(find.getName(), settingMap);
             }
             list.add(findMap);
@@ -88,16 +81,35 @@ public class ContactController {
 
     @RequestMapping("/editSetting")
     @ResponseBody
-    public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img, String type) {
+    public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img) {
         Setting setting = new Setting();
-        setting.setId(id);
+        settingService.getSettingById(id);
         setting.setName(name);
         setting.setValue(value);
         setting.setDescription(description);
         setting.setImg(img);
-        setting.setType(type);
 
         settingService.editSetting(setting);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping("/addFindUs")
+    @ResponseBody
+    public Map addFindUs(@RequestParam(value = "name") String[] name, @RequestParam(value = "value") String[] value){
+        settingService.addFindUs(name, value);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
+    }
+
+    @RequestMapping("/editFindUs")
+    @ResponseBody
+    public Map editFindUs(@RequestParam(value = "id") Integer[] id, @RequestParam(value = "value") String[] value){
+        settingService.editFindUs(id, value);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());

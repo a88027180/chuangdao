@@ -30,7 +30,7 @@ public class FileController {
 
     @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
     @ResponseBody
-    public Map uploadFile(MultipartFile file, String name, int type) {
+    public Map uploadFile(MultipartFile file, String name, int type, String img) {
         Map<String, Object> map = new HashMap<>();
         if(file.isEmpty())
         {
@@ -80,7 +80,7 @@ public class FileController {
             if(type == UploadType.VIDEO.ordinal()) {            // 视频
                 Video video = new Video();
                 video.setName(name==null?"":name);
-                video.setImg("");
+                video.setImg(img==null?"":img);
                 video.setUrl(dir+fileName);
                 fileService.addVideo(video);
             }
@@ -100,6 +100,12 @@ public class FileController {
         Map<String, List<Video>> map = new HashMap<>();
         map.put("list", fileService.getVideoList());
         return map;
+    }
+
+    @RequestMapping("/getVideoFile")
+    @ResponseBody
+    public Map getVideoFile(HttpServletRequest request) {
+        return fileService.getFileList(request.getSession(), 0);
     }
 
     @RequestMapping(value = "/setHomeVideo", method = RequestMethod.POST)

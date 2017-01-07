@@ -10,6 +10,7 @@
 <body>
     <form action="/uploadFile" method="post" enctype="multipart/form-data">
         上传视频:<input type="file" name="file">
+        视频封面:<input type="text" name="img">
         <input type="hidden" name="type" value="0">
         <input type="submit" value="提交">
     </form>
