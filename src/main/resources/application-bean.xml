@@ -56,6 +56,7 @@
                 <value>com.xiyoukeji.entity.Manager</value>
                 <value>com.xiyoukeji.entity.Partner</value>
                 <value>com.xiyoukeji.entity.Recruitment</value>
+                <value>com.xiyoukeji.entity.Reserve</value>
                 <value>com.xiyoukeji.entity.Setting</value>
                 <value>com.xiyoukeji.entity.User</value>
                 <value>com.xiyoukeji.entity.Video</value>

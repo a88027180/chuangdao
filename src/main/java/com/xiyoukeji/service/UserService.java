@@ -64,8 +64,8 @@ public class UserService {
         if(checkType == UserType.ADMIN.ordinal() && userType == UserType.NORMAL.ordinal()) { // 用户不能登录后台‘
             return State.NO_PERMISSION;
         } else {
+            session.setAttribute("userId", checkUser.getId());
             session.setAttribute("name", user.getName());
-            session.setAttribute("password", user.getPassword());
             return State.SUCCESS;
         }
     }

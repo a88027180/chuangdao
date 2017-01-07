@@ -26,6 +26,8 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
     public Map register(User user) {
+        if(user.getPhone()==null)
+            user.setPhone("");
         State s = userService.register(user);
         Map<String, Object> map = new HashMap<>();
         map.put("state", s.value());

@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * Created by Matilda on 2016/12/26.
@@ -20,11 +21,14 @@ public class User {
     private String name;
     @NotNull
     private String password;
+    private int type;   //管理员0， 普通用户1
+    private String phone;
+
     private String date;
     private Integer times;
     @Lob
     private String questionnaire; // 问卷填写情况，未填写则为空
-    private int type;   //管理员0， 普通用户1
+
 
     public Integer getId() {
         return id;
@@ -80,5 +84,13 @@ public class User {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
