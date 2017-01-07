@@ -82,8 +82,7 @@ public class ContactController {
     @RequestMapping("/editSetting")
     @ResponseBody
     public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img) {
-        Setting setting = new Setting();
-        settingService.getSettingById(id);
+        Setting setting = settingService.getSettingById(id);
         setting.setName(name);
         setting.setValue(value);
         setting.setDescription(description);
