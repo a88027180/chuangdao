@@ -55,8 +55,28 @@ public class UserController {
 
     @RequestMapping("/isLogin")
     @ResponseBody
-    public boolean isLogin(HttpSession session) {
-        return userService.isLogin(session);
+    public Map isLogin(HttpSession session) {
+        String name = userService.isLogin(session);
+        Map<String, Object> map = new HashMap<>();
+        if(name == null) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "用户未登录");
+            return map;
+        }
+
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", name);
+        return map;
+    }
+
+    @RequestMapping("/logout")
+    @ResponseBody
+    public Map logout(HttpSession session) {
+        session.invalidate();
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", State.SUCCESS.value());
+        map.put("detail", State.SUCCESS.desc());
+        return map;
     }
 
     @RequestMapping("/isSubmitted")

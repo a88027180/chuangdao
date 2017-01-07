@@ -82,8 +82,8 @@ public class UserService {
         return user.getQuestionnaire()!=null;
     }
 
-    public boolean isLogin(HttpSession session) {
-        return session.getAttribute("name") != null;
+    public String isLogin(HttpSession session) {
+        return (String)session.getAttribute("name");
     }
 
     public State submitQuestionnaire(String questionnaire, HttpSession session) {
