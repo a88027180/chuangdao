@@ -205,7 +205,7 @@ public class SettingService {
 
     public void editFindUs(Integer[] ids, String[] values, String type) {
         for(int i=0; i<ids.length; i++) {
-            Setting setting = getSettingById(ids[0]);
+            Setting setting = getSettingById(ids[i]);
             setting.setValue(values[i]);
             setting.setType(type);
             settingBaseDao.update(setting);
