@@ -1,6 +1,7 @@
 package com.xiyoukeji.controller;
 
 import com.xiyoukeji.entity.User;
+import com.xiyoukeji.service.ReserveService;
 import com.xiyoukeji.service.UserService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ public class UserController {
 
     @Resource
     UserService userService;
+	@Resource
+    ReserveService reserveService;
 
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -110,6 +113,7 @@ public class UserController {
     @ResponseBody
     public Map deleteUser(Integer id) {
         userService.deleteUser(id);
+		reserveService.deleteUser(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());

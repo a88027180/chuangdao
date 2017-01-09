@@ -107,8 +107,8 @@ public class ContactController {
 
     @RequestMapping("/editFindUs")
     @ResponseBody
-    public Map editFindUs(@RequestParam(value = "id") Integer[] id, @RequestParam(value = "value") String[] value){
-        settingService.editFindUs(id, value);
+    public Map editFindUs(@RequestParam(value = "id") Integer[] id, @RequestParam(value = "value") String[] value, String type){
+        settingService.editFindUs(id, value, type);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());

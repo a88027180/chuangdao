@@ -63,6 +63,15 @@ public class ReserveService {
         }
         return list;
     }
+	
+	public void deleteUser(Integer id) {
+		 List<Reserve> reserves = reserveBaseDao.find("from Reserve r where r.userId = "+id);
+		 if(reserves.size() != 0) {
+			 for (Reserve r: reserves) {
+				reserveBaseDao.delete(r);
+			 }
+		 }
+	}
 
 
 }
