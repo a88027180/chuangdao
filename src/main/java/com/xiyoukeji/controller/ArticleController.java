@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.service.ArticleService;
 import com.xiyoukeji.service.SettingService;
@@ -23,6 +24,7 @@ public class ArticleController {
     @Resource
     SettingService settingService;
 
+    @EditAuthority("03")
     @RequestMapping(value = "/addArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map addArticle(Article article) {
@@ -52,6 +54,7 @@ public class ArticleController {
         return map;
     }
 
+    @EditAuthority("03")
     @RequestMapping(value = "/deleteArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteArticle(Integer id) {
@@ -63,6 +66,7 @@ public class ArticleController {
         return map;
     }
 
+    @EditAuthority("03")
     @RequestMapping(value = "/editArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map editArticle(Article article) {
@@ -90,6 +94,7 @@ public class ArticleController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/setArticleSquare", method = RequestMethod.POST)
     @ResponseBody
     public Map setArticleSquare(Integer id){
@@ -107,6 +112,7 @@ public class ArticleController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/setArticleSquares", method = RequestMethod.POST)
     @ResponseBody
     public Map setArticleSquares(@RequestParam(value = "ids") Integer[] ids){
@@ -120,6 +126,7 @@ public class ArticleController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editArticleSquare")
     @ResponseBody
     public Map editArticleSquare(Integer pre_id, Integer cur_id){

@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.User;
 import com.xiyoukeji.service.ReserveService;
 import com.xiyoukeji.service.UserService;
@@ -109,6 +110,7 @@ public class UserController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteUser(Integer id) {
@@ -120,5 +122,14 @@ public class UserController {
         return map;
     }
 
+    @RequestMapping(value = "/editPassword", method = RequestMethod.POST)
+    @ResponseBody
+    public Map editPassword(String oPassword, String nPassword, HttpSession session) {
+        State s = userService.editPassword(oPassword, nPassword, session);
+        Map<String, Object> map = new HashMap<>();
+        map.put("state", s.value());
+        map.put("detail", s.desc());
+        return map;
+    }
 
 }

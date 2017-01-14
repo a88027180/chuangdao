@@ -61,11 +61,12 @@ public class UserService {
         }
 
         int userType = checkUser.getType();
-        if(checkType == UserType.ADMIN.ordinal() && userType == UserType.NORMAL.ordinal()) { // 用户不能登录后台‘
+        if(checkType != UserType.NORMAL.ordinal() && userType == UserType.NORMAL.ordinal()) { // 用户不能登录后台‘
             return State.NO_PERMISSION;
         } else {
             session.setAttribute("userId", checkUser.getId());
             session.setAttribute("name", user.getName());
+            session.setAttribute("type", checkUser.getType());
             return State.SUCCESS;
         }
     }
@@ -131,4 +132,15 @@ public class UserService {
         userBaseDao.delete(user);
     }
 
+    public State editPassword(String oPassword, String nPassword, HttpSession session) {
+        if(session.getAttribute("userId")==null)
+            return State.LOGIN_EXPIRE;
+        Integer id = (Integer) session.getAttribute("userId");
+        User user = userBaseDao.get(User.class, id);
+        if(!user.getPassword().equals(oPassword))
+            return State.PASSWORD_ERROR;
+        user.setPassword(nPassword);
+        userBaseDao.update(user);
+        return State.SUCCESS;
+    }
 }

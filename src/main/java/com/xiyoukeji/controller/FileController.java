@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.Video;
 import com.xiyoukeji.service.FileService;
 import com.xiyoukeji.service.SettingService;
@@ -153,6 +154,7 @@ public class FileController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editVideo", method = RequestMethod.POST)
     @ResponseBody
     public Map editVideo(Video video) {
@@ -163,6 +165,7 @@ public class FileController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editHomeImg", method = RequestMethod.POST)
     @ResponseBody
     public Map editHomeImg(String pre_url, String cur_url) {
@@ -173,6 +176,7 @@ public class FileController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping("/deleteFile")
     @ResponseBody
     public Map deleteFile(String url, Integer type) {  //url为相对路径

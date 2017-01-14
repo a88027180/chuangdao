@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.service.RecruitmentService;
 import com.xiyoukeji.entity.Recruitment;
@@ -32,6 +33,7 @@ public class RecruitController {
         return map;
     }
 
+    @EditAuthority("02")
     @RequestMapping(value = "/addRecruitment", method = RequestMethod.POST)
     @ResponseBody
     public Map addRecruitment(String position, @RequestParam(value = "duty") List<String> duty, @RequestParam(value = "requirement") List<String> requirement,
@@ -50,6 +52,7 @@ public class RecruitController {
         return map;
     }
 
+    @EditAuthority("02")
     @RequestMapping(value = "/deleteRecruitment", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteRecruitment(Integer id) {
@@ -60,6 +63,7 @@ public class RecruitController {
         return map;
     }
 
+    @EditAuthority("02")
     @RequestMapping(value = "/editRecruitment", method = RequestMethod.POST)
     @ResponseBody
     public Map editRecruitment(Integer id, String position, @RequestParam(value = "duty") List<String> duty, @RequestParam(value = "requirement") List<String> requirement,
@@ -79,6 +83,7 @@ public class RecruitController {
         return map;
     }
 
+    @EditAuthority("02")
     @RequestMapping(value = "/addRecruitmentAttr", method = RequestMethod.POST)
     @ResponseBody
     public Map addRecruitmentAttr(Integer id, String name, String value) {

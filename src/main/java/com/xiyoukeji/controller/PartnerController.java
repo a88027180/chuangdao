@@ -1,10 +1,10 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.Partner;
 import com.xiyoukeji.service.PartnerService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +23,7 @@ public class PartnerController {
     @Resource
     PartnerService partnerService;
 
+    @EditAuthority("0")
     @RequestMapping(value = "/addPartner", method = RequestMethod.POST)
     @ResponseBody
     public Map addPartner(Partner partner) {
@@ -33,6 +34,7 @@ public class PartnerController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/deletePartner", method = RequestMethod.POST)
     @ResponseBody
     public Map deletePartner(Integer id) {
@@ -43,6 +45,7 @@ public class PartnerController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editPartner", method = RequestMethod.POST)
     @ResponseBody
     public Map editPartner(Partner partner) {

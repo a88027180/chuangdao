@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.service.SettingService;
 import com.xiyoukeji.entity.Setting;
 import com.xiyoukeji.tools.State;
@@ -52,6 +53,7 @@ public class ContactController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/addSetting", method = RequestMethod.POST)
     @ResponseBody
     public Map addSetting(String name, String value, String description, @RequestParam(value = "img", required = false) List<String> img, String type) {
@@ -69,6 +71,7 @@ public class ContactController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/deleteSetting", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteSetting(Integer id) {
@@ -79,6 +82,7 @@ public class ContactController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping("/editSetting")
     @ResponseBody
     public Map editSetting(Integer id, String name, String value, String description, @RequestParam(value = "img") List<String> img) {
@@ -95,6 +99,7 @@ public class ContactController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping("/addFindUs")
     @ResponseBody
     public Map addFindUs(@RequestParam(value = "name") String[] name, @RequestParam(value = "value") String[] value){
@@ -105,6 +110,7 @@ public class ContactController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping("/editFindUs")
     @ResponseBody
     public Map editFindUs(@RequestParam(value = "id") Integer[] id, @RequestParam(value = "value") String[] value, String type){

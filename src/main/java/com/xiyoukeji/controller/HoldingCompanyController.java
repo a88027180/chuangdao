@@ -1,10 +1,10 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.HoldingCompany;
 import com.xiyoukeji.service.HoldingCompanyService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,10 +20,10 @@ import java.util.Map;
 @Controller
 public class HoldingCompanyController {
 
-
     @Resource
     HoldingCompanyService holdingCompanyService;
 
+    @EditAuthority("0")
     @RequestMapping(value = "/addHoldingCompany", method = RequestMethod.POST)
     @ResponseBody
     public Map addHoldingCompany(HoldingCompany hc) {
@@ -34,6 +34,7 @@ public class HoldingCompanyController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/deleteHoldingCompany", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteHoldingCompany(Integer id) {
@@ -44,6 +45,7 @@ public class HoldingCompanyController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editHoldingCompany", method = RequestMethod.POST)
     @ResponseBody
     public Map editHoldingCompany(HoldingCompany hc) {

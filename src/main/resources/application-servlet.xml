@@ -27,6 +27,10 @@
 	</context:component-scan>
 	<mvc:annotation-driven />
 
+	<mvc:interceptors>
+		<bean class="com.xiyoukeji.auth.AuthorityAnnotationInterceptor"></bean>
+	</mvc:interceptors>
+
 	<mvc:default-servlet-handler />
 	<!-- 定义视图解析器 -->
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

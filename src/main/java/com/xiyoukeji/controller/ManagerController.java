@@ -1,5 +1,6 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.Manager;
 import com.xiyoukeji.service.ManagerService;
 import com.xiyoukeji.tools.State;
@@ -21,6 +22,7 @@ public class ManagerController {
     @Resource
     ManagerService managerService;
 
+    @EditAuthority("0")
     @RequestMapping(value = "/addManager", method = RequestMethod.POST)
     @ResponseBody
     public Map addManager(String name, String spell, String appellation, String main_title,
@@ -42,6 +44,7 @@ public class ManagerController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/deleteManager", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteManager(Integer id) {
@@ -52,6 +55,7 @@ public class ManagerController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editManager", method = RequestMethod.POST)
     @ResponseBody
     public Map editManager(Integer id, String name, String spell, String appellation, String main_title,

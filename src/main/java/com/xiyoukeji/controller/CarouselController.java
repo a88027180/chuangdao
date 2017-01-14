@@ -1,10 +1,10 @@
 package com.xiyoukeji.controller;
 
+import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.Carousel;
 import com.xiyoukeji.service.CarouselService;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,6 +23,7 @@ public class CarouselController {
     @Resource
     CarouselService carouselService;
 
+    @EditAuthority("0")
     @RequestMapping(value = "/addCarousel", method = RequestMethod.POST)
     @ResponseBody
     public Map addCarousel(Carousel carousel) {
@@ -33,6 +34,7 @@ public class CarouselController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/deleteCarousel", method = RequestMethod.POST)
     @ResponseBody
     public Map deleteCarousel(Integer id) {
@@ -43,6 +45,7 @@ public class CarouselController {
         return map;
     }
 
+    @EditAuthority("0")
     @RequestMapping(value = "/editCarousel", method = RequestMethod.POST)
     @ResponseBody
     public Map editCarousel(Carousel carousel) {
