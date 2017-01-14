@@ -62,17 +62,7 @@ public class UserController {
     @RequestMapping("/isLogin")
     @ResponseBody
     public Map isLogin(HttpSession session) {
-        String name = userService.isLogin(session);
-        Map<String, Object> map = new HashMap<>();
-        if(name == null) {
-            map.put("state", State.FAIL.value());
-            map.put("detail", "用户未登录");
-            return map;
-        }
-
-        map.put("state", State.SUCCESS.value());
-        map.put("detail", name);
-        return map;
+        return userService.isLogin(session);
     }
 
     @RequestMapping("/logout")

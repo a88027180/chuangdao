@@ -83,8 +83,17 @@ public class UserService {
         return user.getQuestionnaire()!=null;
     }
 
-    public String isLogin(HttpSession session) {
-        return (String)session.getAttribute("name");
+    public Map<String, Object> isLogin(HttpSession session) {
+        Map<String, Object> map = new HashMap<>();
+        if(session.getAttribute("name") == null) {
+            map.put("state", State.FAIL.value());
+            map.put("detail", "用户未登录");
+        } else {
+            map.put("state", State.SUCCESS.value());
+            map.put("name", session.getAttribute("name"));
+            map.put("type", session.getAttribute("type"));
+        }
+        return map;
     }
 
     public State submitQuestionnaire(String questionnaire, HttpSession session) {
