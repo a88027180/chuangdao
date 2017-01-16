@@ -36,51 +36,59 @@ public class AuthorityAnnotationInterceptor extends HandlerInterceptorAdapter {
                 return true;
             }
 
-            logger.info("editAuthority");
-
             boolean flag = true;
             HttpSession session = request.getSession();
-            if(session.getAttribute("type")==null)
-                flag = false;
-            Integer type = (Integer) session.getAttribute("type");
+            JSONObject json = new JSONObject();
 
-            if(type == 0)
-                return true;
-
-
-            // 注解权限不足: 2或3没有权限
-            if(!editAuthority.value().contains(""+type)) {
+            // 未登录
+            if(session.getAttribute("type")==null) {
+                json.put("state", State.FAIL.value());
+                json.put("detail", "用户未登录");
                 flag = false;
             }
+            else {
+                Integer type = (Integer) session.getAttribute("type");
 
-            // 注解有权限
-            if(type == 3){
-                // 权限3的人添加文章时超出权限范围
-                String url = request.getRequestURI();
-                if(url.equals("/addArticle") || url.equals("/editArticle")) {
-                    String articleType = request.getParameter("type");
-                    if(!articleType.equals(ArticleType.RESEARCH_REPORT.name())
-                            && !articleType.equals(ArticleType.WEEK_OBSERVATION.name()))
-                        flag = false;
+                if (type == 0)
+                    return true;
 
-                } else if(url.equals("/deleteArticle")) {
-                    Integer id = Integer.valueOf(request.getParameter("id"));
-                    Article article = articleBaseDao.get(Article.class, id);
-                    String articleType = article.getType();
-                    if(!articleType.equals(ArticleType.RESEARCH_REPORT.name())
-                            && !articleType.equals(ArticleType.WEEK_OBSERVATION.name()))
-                        flag = false;
+                // 注解权限不足: 2或3没有权限
+                if (!editAuthority.value().contains("" + type)) {
+                    json.put("state", State.NO_PERMISSION.value());
+                    json.put("detail", State.NO_PERMISSION.desc());
+                    flag = false;
+                }
+
+                // 注解有权限
+                if (type == 3) {
+                    // 权限3的人添加文章时超出权限范围
+                    String url = request.getRequestURI();
+                    if (url.equals("/addArticle") || url.equals("/editArticle")) {
+                        String articleType = request.getParameter("type");
+                        if (!articleType.equals(ArticleType.RESEARCH_REPORT.name())
+                                && !articleType.equals(ArticleType.WEEK_OBSERVATION.name())) {
+                            json.put("state", State.NO_PERMISSION.value());
+                            json.put("detail", State.NO_PERMISSION.desc());
+                            flag = false;
+                        }
+
+                    } else if (url.equals("/deleteArticle")) {
+                        Integer id = Integer.valueOf(request.getParameter("id"));
+                        Article article = articleBaseDao.get(Article.class, id);
+                        String articleType = article.getType();
+                        if (!articleType.equals(ArticleType.RESEARCH_REPORT.name())
+                                && !articleType.equals(ArticleType.WEEK_OBSERVATION.name())) {
+                            json.put("state", State.NO_PERMISSION.value());
+                            json.put("detail", State.NO_PERMISSION.desc());
+                            flag = false;
+                        }
+                    }
                 }
             }
 
             if(!flag) {
                 response.setCharacterEncoding("utf-8");
                 response.setContentType("application/json; charset=utf-8");
-
-                JSONObject json = new JSONObject();
-                json.put("state", State.NO_PERMISSION.value());
-                json.put("detail", State.NO_PERMISSION.desc());
-
                 PrintWriter out = null;
                 try {
                     out = response.getWriter();

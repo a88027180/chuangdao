@@ -54,8 +54,13 @@ public class UserController {
     public Map adminLogin(User user, HttpSession session) {
         State s = userService.adminLogin(user, session);
         Map<String, Object> map = new HashMap<>();
-        map.put("state", s.value());
-        map.put("detail", s.desc());
+        if(s == State.SUCCESS) {
+            map.put("state", s.value());
+            map.put("type", session.getAttribute("type"));
+        } else {
+            map.put("state", s.value());
+            map.put("detail", s.desc());
+        }
         return map;
     }
 
