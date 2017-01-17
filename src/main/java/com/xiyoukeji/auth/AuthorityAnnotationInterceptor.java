@@ -27,10 +27,13 @@ public class AuthorityAnnotationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        // 允许跨域访问
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
         response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+
+        // 权限控制
         if(handler instanceof HandlerMethod) {
             HandlerMethod handler1 = (HandlerMethod) handler;
             EditAuthority editAuthority = handler1.getMethodAnnotation(EditAuthority.class);
