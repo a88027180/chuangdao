@@ -57,6 +57,12 @@ public class Carousel implements Comparable<Carousel>{
 
     @Override
     public int compareTo(Carousel o) {
-        return this.order.compareTo(o.getOrder());
+        if(this.order!=null && o.getOrder()!=null)
+            return this.order.compareTo(o.getOrder());
+        else if(this.order!=null && o.getOrder()==null)
+            return -1;
+        else if(this.order==null && o.getOrder()!=null)
+            return 1;
+        return this.id.compareTo(o.getId());
     }
 }
