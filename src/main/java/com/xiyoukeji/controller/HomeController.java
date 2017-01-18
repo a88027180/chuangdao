@@ -76,18 +76,18 @@ public class HomeController {
         List<Article> articles = new ArrayList<>();
         if(ids.size() != 0) {
             for (Integer id: ids) {
-                articles.add(articleService.getArticleById(id));
+                articles.add(articleService.getArticleById(id));// 不存在就是null
             }
         }
         map.put("list", articles);
         return map;
     }
 
-    @RequestMapping("/getArticleSquareID")
+    @RequestMapping("/getArticleSquareTitle")
     @ResponseBody
-    public Map getArticleSquareID() {
-        Map<String, List<Integer>> map = new HashMap<>();
-        map.put("list", settingService.getArticleSquareID());
+    public Map getArticleSquareTitle() {
+        Map<String, List<String>> map = new HashMap<>();
+        map.put("list", settingService.getArticleSquareTitle());
         return map;
     }
 

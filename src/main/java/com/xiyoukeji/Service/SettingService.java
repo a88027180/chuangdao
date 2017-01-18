@@ -74,7 +74,6 @@ public class SettingService {
     public void editSetting(Setting setting) {
         settingBaseDao.update(setting);
     }
-
     public List<Setting> getLinks() {
         return settingBaseDao.find("from Setting as s where s.name = 'links'");
     }
@@ -93,6 +92,11 @@ public class SettingService {
         setting.setName("home_image");
         setting.setValue(url);
         settingBaseDao.save(setting);
+    }
+
+    public void setArticleSquare(String title) {
+        int id = articleService.getId(title);
+        setArticleSquare(id);
     }
 
     public void setArticleSquare(Integer id) {
@@ -115,21 +119,32 @@ public class SettingService {
         return video;
     }
 
-    public List<Integer> getArticleSquareID() {
+    public List<Integer> getArticleSquareID(){
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select s.value from Setting as s where s.name = 'home_article_square'");
         List<String> ids = query.list();
-        List<Integer> list = new ArrayList<>();
-        if(ids.size() != 0) {
+        List<Integer> res = new ArrayList<>();
+        if(ids.size()!=0) {
             for(String id: ids) {
-                Article article = articleService.getArticleById(Integer.valueOf(id));
-                if(article != null)
-                    list.add(Integer.valueOf(id));
-                else
-                    list.add(-1);
+                res.add(Integer.valueOf(id));
             }
         }
+        return res;
+    }
 
+    public List<String> getArticleSquareTitle() {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select s.value from Setting as s where s.name = 'home_article_square'");
+        List<String> ids = query.list();
+        List<String> list = new ArrayList<>();
+        if(ids.size() != 0) {
+            for(String id: ids) {
+                if(Integer.valueOf(id)==-1)
+                    list.add("(文章不存在)");
+                else
+                    list.add(articleService.getArticleById(Integer.valueOf(id)).getTitle());
+            }
+        }
         return list;
     }
 

@@ -3,6 +3,8 @@ package com.xiyoukeji.service;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.BaseDaoImpl;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +19,8 @@ public class ArticleService {
 
     @Resource
     BaseDaoImpl<Article> articleBaseDao;
+    @Resource
+    SessionFactory sessionFactory;
 
     public Article getArticleById(Integer id) {
         return articleBaseDao.get(Article.class, id);
@@ -72,6 +76,24 @@ public class ArticleService {
         });
         return list;
     }
+
+//    public List<Object[]> getListAll() {
+//        Session session = sessionFactory.getCurrentSession();
+//        List<Object[]> res = session.createQuery("select a.id, a.title from Article a").list();
+//        if(res.size()!=0) {
+//
+//        }
+//        return res;
+//    }
+
+    public int getId(String title) {
+        Article article = articleBaseDao.get("from Article a where a.title = '"+title+"'");
+        if(article == null)
+            return -1;
+        else
+            return article.getId();
+    }
+
 
     public void addArticle(Article article) {
         articleBaseDao.save(article);

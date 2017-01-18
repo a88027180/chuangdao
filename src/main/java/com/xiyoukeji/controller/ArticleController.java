@@ -94,46 +94,55 @@ public class ArticleController {
         return map;
     }
 
-    @EditAuthority("0")
-    @RequestMapping(value = "/setArticleSquare", method = RequestMethod.POST)
-    @ResponseBody
-    public Map setArticleSquare(Integer id){
-        List<Integer> ids = settingService.getArticleSquareID();
-        Map<String, Object> map = new HashMap<>();
-        if(ids.size()==5) {
-            map.put("state", State.SET_EXCEED.value());
-            map.put("detail", State.SET_EXCEED.desc()+": 5");
-            return map;
-        }
-        settingService.setArticleSquare(id);
+//    @RequestMapping("/getArticleList")
+//    @ResponseBody
+//    public Map getArticleList() {
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("list", articleService.getListAll());
+//        return map;
+//    }
 
-        map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.desc());
-        return map;
-    }
+//    @EditAuthority("0")
+//    @RequestMapping(value = "/setArticleSquare", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Map setArticleSquare(Integer id){
+//        List<Integer> ids = settingService.getArticleSquareID();
+//        Map<String, Object> map = new HashMap<>();
+//        if(ids.size()==5) {
+//            map.put("state", State.SET_EXCEED.value());
+//            map.put("detail", State.SET_EXCEED.desc()+": 5");
+//            return map;
+//        }
+//        settingService.setArticleSquare(id);
+//
+//        map.put("state", State.SUCCESS.value());
+//        map.put("detail", State.SUCCESS.desc());
+//        return map;
+//    }
 
     @EditAuthority("0")
     @RequestMapping(value = "/setArticleSquares", method = RequestMethod.POST)
     @ResponseBody
-    public Map setArticleSquares(@RequestParam(value = "ids") Integer[] ids){
+    public Map setArticleSquares(@RequestParam(value = "titles") String[] titles){
         Map<String, Object> map = new HashMap<>();
         settingService.deleteArticleSquares();  // 清除原先设置信息
-        for (Integer id: ids) {
-            settingService.setArticleSquare(id);
+
+        for (String title: titles) {
+            settingService.setArticleSquare(title);
         }
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
         return map;
     }
 
-    @EditAuthority("0")
-    @RequestMapping(value = "/editArticleSquare")
-    @ResponseBody
-    public Map editArticleSquare(Integer pre_id, Integer cur_id){
-        settingService.editArticleSquare(pre_id, cur_id);
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", State.SUCCESS.value());
-        map.put("detail", State.SUCCESS.desc());
-        return map;
-    }
+//    @EditAuthority("0")
+//    @RequestMapping(value = "/editArticleSquare")
+//    @ResponseBody
+//    public Map editArticleSquare(Integer pre_id, Integer cur_id){
+//        settingService.editArticleSquare(pre_id, cur_id);
+//        Map<String, Object> map = new HashMap<>();
+//        map.put("state", State.SUCCESS.value());
+//        map.put("detail", State.SUCCESS.desc());
+//        return map;
+//    }
 }
