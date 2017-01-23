@@ -78,6 +78,13 @@ public class ArticleService {
                 }
                 else
                 {
+                    summary = summary.replaceAll("\r\n","").replaceAll("\t","");
+                    int index = summary.indexOf("项目简介");
+                    if(index >=0)
+                        summary = summary.substring(index+4);
+                    index = summary.indexOf("项目介绍");
+                    if(index >=0)
+                        summary = summary.substring(index+4);
                     String result = StringEscapeUtils.unescapeHtml(summary).substring(0,length);
 //                    int newLength = length;
 //                    int lastAnd = result.lastIndexOf("&");
@@ -89,9 +96,7 @@ public class ArticleService {
 //                        lastAnd = result.lastIndexOf("&");
 //                        lastSemicolon = result.lastIndexOf(";");
 //                    }
-                    int index = result.indexOf("项目简介");
-                    if(index >=0)
-                        result = result.substring(index+4);
+
                     map.put("summary", result+"...");
                 }
             }
