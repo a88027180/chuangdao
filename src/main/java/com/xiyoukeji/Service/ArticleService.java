@@ -3,6 +3,7 @@ package com.xiyoukeji.service;
 import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.BaseDaoImpl;
+import com.xiyoukeji.tools.HtmlExtract;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -63,7 +64,34 @@ public class ArticleService {
             else
                 map.put("img", a.getImg().get(0));
 
-            map.put("summary", a.getSummary());
+
+            if(a.getSummary()!=null) {
+                map.put("summary", a.getSummary());
+
+            } else {
+                length = 80;
+                String summary = HtmlExtract.delHTMLTag(a.getText());
+                if(summary.length() < length)
+                {
+                    map.put("summary",summary);
+                }
+                else
+                {
+                    // 避免字符实体如&nbsp;被切割
+                    String result = summary.substring(0,length);
+                    int newLength = length;
+                    int lastAnd = result.lastIndexOf("&");
+                    int lastSemicolon = result.lastIndexOf(";");
+
+                    while (lastAnd>0 && lastAnd>lastSemicolon) {
+                        newLength += 7;     // 最长的字符实体如：&middot;
+                        result = summary.substring(0, newLength);
+                        lastAnd = result.lastIndexOf("&");
+                        lastSemicolon = result.lastIndexOf(";");
+                    }
+                    map.put("summary", result);
+                }
+            }
 
             list.add(map);
         }

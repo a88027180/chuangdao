@@ -46,9 +46,6 @@ public class HomeController {
     @RequestMapping(value = "/searchArticle", method = RequestMethod.POST)
     @ResponseBody
     public Map searchArticle(String keyWord) {
-        // 如果为空 xxxxx
-
-        // 如果不为空
         Map<String, List<Article>> map = new HashMap<>();
         map.put("list", articleService.getArticleByTitle(keyWord));
         return map;

@@ -37,7 +37,7 @@ public class RecruitController {
     @RequestMapping(value = "/addRecruitment", method = RequestMethod.POST)
     @ResponseBody
     public Map addRecruitment(String position, @RequestParam(value = "duty") List<String> duty, @RequestParam(value = "requirement") List<String> requirement,
-                              @RequestParam(value = "place") List<String> place, String email ) {
+                              @RequestParam(value = "place") List<String> place, String email ) {   // 写成List<String>接收会自动按逗号分隔，String[]也是
         Recruitment recruitment = new Recruitment();
         recruitment.setPosition(position);
         recruitment.setDuty(duty);

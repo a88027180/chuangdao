@@ -249,7 +249,7 @@ public class FileController {
     @RequestMapping(value = "/readInfo")
     @ResponseBody
     public String readInfo() throws Exception {
-        File file = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/logs/info"));
+        File file = new File(request.getSession().getServletContext().getRealPath("/WEB-INF/logs/out"));
         if(!file.exists())
             return "";
         BufferedReader br = new BufferedReader(new FileReader(file));
