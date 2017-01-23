@@ -78,7 +78,7 @@ public class ArticleService {
                 }
                 else
                 {
-                    summary = summary.replaceAll("\r\n","").replaceAll("\t","");
+                    summary = summary.replaceAll("\r\n","").replaceAll("\t","").replaceAll(" ","");
                     int index = summary.indexOf("项目简介");
                     if(index >=0)
                         summary = summary.substring(index+4);
