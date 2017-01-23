@@ -4,6 +4,7 @@ import com.xiyoukeji.entity.Article;
 import com.xiyoukeji.tools.ArticleType;
 import com.xiyoukeji.tools.BaseDaoImpl;
 import com.xiyoukeji.tools.HtmlExtract;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
@@ -77,19 +78,21 @@ public class ArticleService {
                 }
                 else
                 {
-                    // 避免字符实体如&nbsp;被切割
-                    String result = summary.substring(0,length);
-                    int newLength = length;
-                    int lastAnd = result.lastIndexOf("&");
-                    int lastSemicolon = result.lastIndexOf(";");
-
-                    while (lastAnd>0 && lastAnd>lastSemicolon) {
-                        newLength += 7;     // 最长的字符实体如：&middot;
-                        result = summary.substring(0, newLength);
-                        lastAnd = result.lastIndexOf("&");
-                        lastSemicolon = result.lastIndexOf(";");
-                    }
-                    map.put("summary", result);
+                    String result = StringEscapeUtils.unescapeHtml(summary).substring(0,length);
+//                    int newLength = length;
+//                    int lastAnd = result.lastIndexOf("&");
+//                    int lastSemicolon = result.lastIndexOf(";");
+//
+//                    while (lastAnd>0 && lastAnd>lastSemicolon) {
+//                        newLength += 7;     // 最长的字符实体如：&middot;
+//                        result = summary.substring(0, newLength);
+//                        lastAnd = result.lastIndexOf("&");
+//                        lastSemicolon = result.lastIndexOf(";");
+//                    }
+                    int index = result.indexOf("项目简介");
+                    if(index >=0)
+                        result = result.substring(index+4);
+                    map.put("summary", result+"...");
                 }
             }
 
