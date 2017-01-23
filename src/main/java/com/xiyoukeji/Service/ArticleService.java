@@ -66,37 +66,28 @@ public class ArticleService {
                 map.put("img", a.getImg().get(0));
 
 
-            if(a.getSummary()!=null) {
+            if(a.getSummary()!=null) {  // 原有摘要
                 map.put("summary", a.getSummary());
 
-            } else {
+            } else {                    // 提取摘要
                 length = 80;
                 String summary = HtmlExtract.delHTMLTag(a.getText());
-                if(summary.length() < length)
+                summary = summary.replaceAll("\r\n","").replaceAll("\t","").replaceAll(" ","");
+                int index = summary.indexOf("项目简介");
+                if(index >=0)
+                    summary = summary.substring(index+4);
+                index = summary.indexOf("项目介绍");
+                if(index >=0)
+                    summary = summary.substring(index+4);
+                String result = StringEscapeUtils.unescapeHtml(summary).replaceAll(" ","");
+                if(result.length() <= length)
                 {
-                    map.put("summary",summary);
+                    map.put("summary",result);
                 }
                 else
                 {
-                    summary = summary.replaceAll("\r\n","").replaceAll("\t","").replaceAll(" ","");
-                    int index = summary.indexOf("项目简介");
-                    if(index >=0)
-                        summary = summary.substring(index+4);
-                    index = summary.indexOf("项目介绍");
-                    if(index >=0)
-                        summary = summary.substring(index+4);
-                    String result = StringEscapeUtils.unescapeHtml(summary).replaceAll(" ","").substring(0,length);
-//                    int newLength = length;
-//                    int lastAnd = result.lastIndexOf("&");
-//                    int lastSemicolon = result.lastIndexOf(";");
-//
-//                    while (lastAnd>0 && lastAnd>lastSemicolon) {
-//                        newLength += 7;     // 最长的字符实体如：&middot;
-//                        result = summary.substring(0, newLength);
-//                        lastAnd = result.lastIndexOf("&");
-//                        lastSemicolon = result.lastIndexOf(";");
-//                    }
 
+                    result = result.substring(0,length);
                     map.put("summary", result+"...");
                 }
             }
