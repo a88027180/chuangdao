@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -41,7 +42,12 @@ public class FileController {
         }
 
         // 保存路径
-        String fileName = file.getOriginalFilename();
+        String originalName = file.getOriginalFilename();
+        String suffix = originalName.substring(originalName.indexOf("."));
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String dateString = formatter.format(currentTime);
+        String fileName = dateString +suffix;// 当前时间作为文件名
         String dir;
         if(type == UploadType.VIDEO.ordinal())
             dir = "/uploads/video/";
