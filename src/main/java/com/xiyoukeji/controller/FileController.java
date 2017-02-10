@@ -42,12 +42,6 @@ public class FileController {
         }
 
         // 保存路径
-        String originalName = file.getOriginalFilename();
-        String suffix = originalName.substring(originalName.indexOf("."));
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
-        String dateString = formatter.format(currentTime);
-        String fileName = dateString +suffix;// 当前时间作为文件名
         String dir;
         if(type == UploadType.VIDEO.ordinal())
             dir = "/uploads/video/";
@@ -69,6 +63,9 @@ public class FileController {
             }
         }
 
+        String originalName = file.getOriginalFilename();
+        String suffix = originalName.substring(originalName.lastIndexOf("."));
+        String fileName = getUUID()+suffix;
         String filePath = dirPath+fileName;
 
         // 转存文件
@@ -267,4 +264,7 @@ public class FileController {
         return sb.toString();
     }
 
+    public String getUUID() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 }
