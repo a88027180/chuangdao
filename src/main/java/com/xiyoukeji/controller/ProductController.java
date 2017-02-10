@@ -35,7 +35,7 @@ public class ProductController {
     @RequestMapping(value = "/getGallery", method = RequestMethod.POST)
     @ResponseBody
     public Article getGalleryDetailById(Integer id) {
-        if(id == null) return new Article();
+        if(id == null) return null;
         return articleService.getArticleById(id);
     }
 
