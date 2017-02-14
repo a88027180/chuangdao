@@ -33,85 +33,85 @@ public class AuthorityAnnotationInterceptor extends HandlerInterceptorAdapter {
 //        response.setHeader("Access-Control-Max-Age", "3600");
 //        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 
-        // 权限控制
-        if(handler instanceof HandlerMethod) {
-            HandlerMethod handler1 = (HandlerMethod) handler;
-            EditAuthority editAuthority = handler1.getMethodAnnotation(EditAuthority.class);
-
-            // 没有声明权限，放行
-            if(editAuthority == null) {
-                return true;
-            }
-
-            boolean flag = true;
-            HttpSession session = request.getSession();
-            JSONObject json = new JSONObject();
-
-            // 未登录
-            if(session.getAttribute("type")==null) {
-                json.put("state", State.FAIL.value());
-                json.put("detail", "用户未登录");
-                flag = false;
-            }
-            else {
-                Integer type = (Integer) session.getAttribute("type");
-
-                if (type == 0)
-                    return true;
-
-                // 注解权限不足: 2或3没有权限
-                if (!editAuthority.value().contains("" + type)) {
-                    json.put("state", State.NO_PERMISSION.value());
-                    json.put("detail", State.NO_PERMISSION.desc());
-                    flag = false;
-                }
-
-                // 注解有权限
-                if (type == 3) {
-                    // 权限3的人添加文章时超出权限范围
-                    String url = request.getRequestURI();
-                    if (url.equals("/addArticle") || url.equals("/editArticle")) {
-                        String articleType = request.getParameter("type");
-                        if (!articleType.equals(ArticleType.RESEARCH_REPORT.name())
-                                && !articleType.equals(ArticleType.WEEK_OBSERVATION.name())) {
-                            json.put("state", State.NO_PERMISSION.value());
-                            json.put("detail", State.NO_PERMISSION.desc());
-                            flag = false;
-                        }
-
-                    } else if (url.equals("/deleteArticle")) {
-                        Integer id = Integer.valueOf(request.getParameter("id"));
-                        Article article = articleBaseDao.get(Article.class, id);
-                        String articleType = article.getType();
-                        if (!articleType.equals(ArticleType.RESEARCH_REPORT.name())
-                                && !articleType.equals(ArticleType.WEEK_OBSERVATION.name())) {
-                            json.put("state", State.NO_PERMISSION.value());
-                            json.put("detail", State.NO_PERMISSION.desc());
-                            flag = false;
-                        }
-                    }
-                }
-            }
-
-            if(!flag) {
-                response.setCharacterEncoding("utf-8");
-                response.setContentType("application/json; charset=utf-8");
-                PrintWriter out = null;
-                try {
-                    out = response.getWriter();
-                    out.append(json.toString());
-                    out.flush();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (out != null) {
-                        out.close();
-                    }
-                }
-                return false;
-            } else
-                return true;
-        }
+//        // 权限控制
+//        if(handler instanceof HandlerMethod) {
+//            HandlerMethod handler1 = (HandlerMethod) handler;
+//            EditAuthority editAuthority = handler1.getMethodAnnotation(EditAuthority.class);
+//
+//            // 没有声明权限，放行
+//            if(editAuthority == null) {
+//                return true;
+//            }
+//
+//            boolean flag = true;
+//            HttpSession session = request.getSession();
+//            JSONObject json = new JSONObject();
+//
+//            // 未登录
+//            if(session.getAttribute("type")==null) {
+//                json.put("state", State.FAIL.value());
+//                json.put("detail", "用户未登录");
+//                flag = false;
+//            }
+//            else {
+//                Integer type = (Integer) session.getAttribute("type");
+//
+//                if (type == 0)
+//                    return true;
+//
+//                // 注解权限不足: 2或3没有权限
+//                if (!editAuthority.value().contains("" + type)) {
+//                    json.put("state", State.NO_PERMISSION.value());
+//                    json.put("detail", State.NO_PERMISSION.desc());
+//                    flag = false;
+//                }
+//
+//                // 注解有权限
+//                if (type == 3) {
+//                    // 权限3的人添加文章时超出权限范围
+//                    String url = request.getRequestURI();
+//                    if (url.equals("/addArticle") || url.equals("/editArticle")) {
+//                        String articleType = request.getParameter("type");
+//                        if (!articleType.equals(ArticleType.RESEARCH_REPORT.name())
+//                                && !articleType.equals(ArticleType.WEEK_OBSERVATION.name())) {
+//                            json.put("state", State.NO_PERMISSION.value());
+//                            json.put("detail", State.NO_PERMISSION.desc());
+//                            flag = false;
+//                        }
+//
+//                    } else if (url.equals("/deleteArticle")) {
+//                        Integer id = Integer.valueOf(request.getParameter("id"));
+//                        Article article = articleBaseDao.get(Article.class, id);
+//                        String articleType = article.getType();
+//                        if (!articleType.equals(ArticleType.RESEARCH_REPORT.name())
+//                                && !articleType.equals(ArticleType.WEEK_OBSERVATION.name())) {
+//                            json.put("state", State.NO_PERMISSION.value());
+//                            json.put("detail", State.NO_PERMISSION.desc());
+//                            flag = false;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if(!flag) {
+//                response.setCharacterEncoding("utf-8");
+//                response.setContentType("application/json; charset=utf-8");
+//                PrintWriter out = null;
+//                try {
+//                    out = response.getWriter();
+//                    out.append(json.toString());
+//                    out.flush();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    if (out != null) {
+//                        out.close();
+//                    }
+//                }
+//                return false;
+//            } else
+//                return true;
+//        }
 
         return true;
 

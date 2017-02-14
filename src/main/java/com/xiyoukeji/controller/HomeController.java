@@ -61,7 +61,7 @@ public class HomeController {
 
     @RequestMapping("/getHomeVideo")
     @ResponseBody
-    public Video getHomeVideo() {
+    public Video getHomeVideo() {   //  前端已处理无返回情况
         return settingService.getHomeVideo();
     }
 
@@ -90,7 +90,7 @@ public class HomeController {
 
     @RequestMapping("/getHomeArticle")
     @ResponseBody
-    public Article getHomeArticle() {
+    public Article getHomeArticle() {   // 前端已处理无返回情况
         List<Article> list = articleService.getArticleByType(ArticleType.HOME_ARTICLE.name());
         if(list.size() == 0)
             return null;
