@@ -227,6 +227,27 @@ public class FileController {
         return fileService.getFileList(request.getSession(), 2);
     }
 
+    @RequestMapping("/getFileForPage")
+    @ResponseBody
+    public Map getFileForPage(Integer start, Integer length, int type, HttpServletRequest request) {
+        Map<String, List<String>> allMap = fileService.getFileList(request.getSession(), type);
+        List<String> allList = allMap.get("list");
+        List<String> partialList = new ArrayList<>();
+        if(start == null)
+            start = 0;
+        if(length == null)
+            length = allList.size();
+        int end = start+length;
+        if(end > allList.size())
+            end = allList.size();
+        for (int i = start; i < end; i++) {
+            partialList.add(allList.get(i));
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("countAll", allList.size());
+        map.put("list", partialList);
+        return map;
+    }
 
     @RequestMapping(value = "/searchFile", method = RequestMethod.POST)
     @ResponseBody
