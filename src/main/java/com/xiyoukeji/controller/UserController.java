@@ -2,8 +2,12 @@ package com.xiyoukeji.controller;
 
 import com.xiyoukeji.auth.EditAuthority;
 import com.xiyoukeji.entity.User;
+import com.xiyoukeji.exception.Assert;
+import com.xiyoukeji.exception.ErrCodeException;
 import com.xiyoukeji.service.ReserveService;
 import com.xiyoukeji.service.UserService;
+import com.xiyoukeji.service.VerifyService;
+import com.xiyoukeji.tools.MapTool;
 import com.xiyoukeji.tools.State;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -23,45 +27,68 @@ public class UserController {
 
     @Resource
     UserService userService;
-	@Resource
+    @Resource
     ReserveService reserveService;
+    @Resource
+    VerifyService verifyService;
 
+    @ExceptionHandler
+    @ResponseBody
+    public Map end(RuntimeException e) {
+        if (!(e instanceof ErrCodeException))
+            e = new ErrCodeException();
+        return MapTool.Map().put("state", ((ErrCodeException) e).getErrcode()).put("msg", e.getMessage());
+    }
+
+    @RequestMapping("/phoneCode")
+    @ResponseBody
+    public Map phoneCode(String phone) {
+        verifyService.sendPhoneCode(phone);
+        return MapTool.Mapok();
+    }
+
+    @RequestMapping("/risk")
+    @ResponseBody
+    public Map risk(String risk) {
+        userService.risk(risk);
+        return MapTool.Mapok();
+    }
+
+    @RequestMapping("/riskStat")
+    @ResponseBody
+    public Map riskStat() {
+        Map risk = userService.getRisk();
+        return MapTool.Mapok().put("data", risk);
+    }
+
+
+    @RequestMapping("/resetPassword")
+    @ResponseBody
+    public Map resetPassword(String phone, String code, String password) {
+        userService.resetPassword(phone, code, password);
+        return MapTool.Mapok();
+    }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseBody
-    public Map register(User user) {
-        if(user.getPhone()==null)
-            user.setPhone("");
-        State s = userService.register(user);
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", s.value());
-        map.put("detail", s.desc());
-        return map;
+    public Map register(String phone, String code, String password, Integer type) {
+        Assert.notBlank(phone, code, password);
+        userService.register(phone, code, password, type);
+        return MapTool.Mapok();
     }
 
     @RequestMapping(value = "/userLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Map userLogin(User user, HttpSession session) {
-        State s = userService.userLogin(user, session);
-        Map<String, Object> map = new HashMap<>();
-        map.put("state", s.value());
-        map.put("detail", s.desc());
-        return map;
+    public Map userLogin(String phone, String password) {
+        userService.userLogin(phone, password);
+        return MapTool.Mapok();
     }
 
     @RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Map adminLogin(User user, HttpSession session) {
-        State s = userService.adminLogin(user, session);
-        Map<String, Object> map = new HashMap<>();
-        if(s == State.SUCCESS) {
-            map.put("state", s.value());
-            map.put("type", session.getAttribute("type"));
-        } else {
-            map.put("state", s.value());
-            map.put("detail", s.desc());
-        }
-        return map;
+    public Map adminLogin(String phone, String password) {
+        userService.adminLogin(phone, password);
+        return MapTool.Mapok();
     }
 
     @RequestMapping("/isLogin")
@@ -110,7 +137,7 @@ public class UserController {
     @ResponseBody
     public Map deleteUser(Integer id) {
         userService.deleteUser(id);
-		reserveService.deleteUser(id);
+        reserveService.deleteUser(id);
         Map<String, Object> map = new HashMap<>();
         map.put("state", State.SUCCESS.value());
         map.put("detail", State.SUCCESS.desc());
@@ -126,5 +153,4 @@ public class UserController {
         map.put("detail", s.desc());
         return map;
     }
-
 }

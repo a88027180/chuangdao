@@ -48,7 +48,7 @@ public class ReserveService {
                 rMap.put("id", r.getId());
                 User user = userBaseDao.get(User.class, r.getUserId());
                 Article article = articleBaseDao.get(Article.class, r.getProductId());
-                rMap.put("userName", user.getName());
+                rMap.put("userName", user.getPhone());
                 rMap.put("productName", article.getTitle());
                 rMap.put("questionnaire", user.getQuestionnaire());
                 rMap.put("time", r.getTime());
@@ -56,9 +56,7 @@ public class ReserveService {
             }
 
             // 越早预约越靠前
-            Collections.sort(list, (o1, o2) -> {
-                return o1.get("time").toString().compareTo(o2.get("time").toString());
-            });
+            Collections.sort(list, (o1, o2) -> o1.get("time").toString().compareTo(o2.get("time").toString()));
 
         }
         return list;

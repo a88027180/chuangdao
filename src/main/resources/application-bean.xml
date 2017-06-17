@@ -60,6 +60,7 @@
                 <value>com.xiyoukeji.entity.Setting</value>
                 <value>com.xiyoukeji.entity.User</value>
                 <value>com.xiyoukeji.entity.Video</value>
+                <value>com.xiyoukeji.entity.VerifyCode</value>
             </list>
         </property>
     </bean>

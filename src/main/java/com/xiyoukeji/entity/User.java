@@ -18,12 +18,14 @@ public class User {
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
     @NotNull
-    private String name;
-    @NotNull
     private String password;
     private int type;   //管理员0， 普通用户1
+    @Column(length = 20, unique = true)
     private String phone;
 
+    private String risk;
+    private long risk_time = 0L;
+    private int risk_times=0;
     private String date;
     private Integer times;
     @Lob
@@ -36,14 +38,6 @@ public class User {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPassword() {
@@ -92,5 +86,29 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getRisk() {
+        return risk;
+    }
+
+    public void setRisk(String risk) {
+        this.risk = risk;
+    }
+
+    public long getRisk_time() {
+        return risk_time;
+    }
+
+    public void setRisk_time(long risk_time) {
+        this.risk_time = risk_time;
+    }
+
+    public int getRisk_times() {
+        return risk_times;
+    }
+
+    public void setRisk_times(int risk_times) {
+        this.risk_times = risk_times;
     }
 }
