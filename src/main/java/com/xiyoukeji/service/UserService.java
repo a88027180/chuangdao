@@ -76,6 +76,11 @@ public class UserService {
             throw new ErrCodeException("超过测评次数");
     }
 
+    public String getMyRisk(){
+        User user = get();
+        return user.getRisk();
+    }
+
     public Map getRisk() {
         Map<String, Long> map = new HashMap<>();
         List<Object[]> list = baseDao.find("select u.risk,count(*) from User as u where u.risk is not null group by u.risk");
@@ -99,6 +104,7 @@ public class UserService {
         Map<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         User user = userBaseDao.get("from User u where u.phone = :phone", map);
+        if(user==null)throw new ErrCodeException("没有该用户");
         if (!new BCryptPasswordEncoder().matches(password, user.getPassword()))
             throw new ErrCodeException("密码错误");
 

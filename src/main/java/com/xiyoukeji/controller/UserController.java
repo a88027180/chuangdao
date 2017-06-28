@@ -61,6 +61,12 @@ public class UserController {
         return MapTool.Mapok().put("data", risk);
     }
 
+    @RequestMapping("/myRisk")
+    @ResponseBody
+    public Map myRisk() {
+        return MapTool.Mapok().put("data", userService.getMyRisk());
+    }
+
 
     @RequestMapping("/resetPassword")
     @ResponseBody
