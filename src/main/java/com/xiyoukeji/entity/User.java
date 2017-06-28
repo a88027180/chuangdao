@@ -1,5 +1,6 @@
 package com.xiyoukeji.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,13 +19,16 @@ public class User {
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
     @NotNull
+    @JsonIgnore
     private String password;
     private int type;   //管理员0， 普通用户1
     @Column(length = 20, unique = true)
     private String phone;
 
     private String risk;
+    @JsonIgnore
     private long risk_time = 0L;
+    @JsonIgnore
     private int risk_times=0;
     private String date;
     private Integer times;

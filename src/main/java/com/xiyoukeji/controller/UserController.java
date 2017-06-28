@@ -31,6 +31,8 @@ public class UserController {
     ReserveService reserveService;
     @Resource
     VerifyService verifyService;
+    @Resource
+    HttpSession session;
 
     @ExceptionHandler
     @ResponseBody
@@ -94,7 +96,7 @@ public class UserController {
     @ResponseBody
     public Map adminLogin(String phone, String password) {
         userService.adminLogin(phone, password);
-        return MapTool.Mapok();
+        return MapTool.Mapok().put("type", session.getAttribute("type"));
     }
 
     @RequestMapping("/isLogin")
