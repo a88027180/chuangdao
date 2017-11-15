@@ -31,8 +31,8 @@ public class ArticleService {
     public List<Article> getArticleByType(String type) { // 异常
         Map<String, Object> map = new HashMap<>();
         map.put("type", type);
-        List<Article> list = articleBaseDao.find("from Article a where a.type = :type", map);
-        Collections.sort(list); // sort才能调用重写的compareTo, reverse不能，所以将reverse实现在compareTo中
+        List<Article> list = articleBaseDao.find("from Article a where a.type = :type order by time desc", map);
+//        Collections.sort(list); // sort才能调用重写的compareTo, reverse不能，所以将reverse实现在compareTo中
         return list;
     }
 
@@ -96,11 +96,11 @@ public class ArticleService {
         }
 
         // 倒序排列，时间近或id大
-        Collections.sort(list, (o1, o2) -> {
-            if(o1.get("time")!=null && o2.get("time")!=null)
-                return o2.get("time").toString().compareTo(o1.get("time").toString());
-            return o2.get("id").toString().compareTo(o1.get("id").toString());
-        });
+//        Collections.sort(list, (o1, o2) -> {
+//            if(o1.get("time")!=null && o2.get("time")!=null)
+//                return o2.get("time").toString().compareTo(o1.get("time").toString());
+//            return o2.get("id").toString().compareTo(o1.get("id").toString());
+//        });
         return list;
     }
 
